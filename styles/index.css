@@ -1,0 +1,48 @@
+body{
+    background-color: aqua;
+}
+
+.game-board {
+    width: 60em;
+    height: 40em;
+    background-color: saddlebrown;
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+#player_1{
+    left: 0;
+    width: 8em ;
+    padding: 1em;
+    background-color: red;
+    height: 10em;
+    text-align:center;
+
+
+}
+.img{
+    width: 8em;
+    height: 7em;
+    padding-top: 1em;
+}
+
+#player_2{
+    left: 0;
+    width: 8em ;
+    padding: 1em;
+    background-color: greenyellow;
+    height: 10em;
+    text-align:center;
+    //,#rolldice,#restart
+}
+#submit{
+    background-color: lawngreen;
+    position: absolute;
+    right: 0;
+    height: 3em;
+    width: 7em;
+}
