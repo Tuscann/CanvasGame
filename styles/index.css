@@ -19,10 +19,8 @@ body{
     width: 8em ;
     padding: 1em;
     background-color: red;
-    height: 10em;
+    height: 18em;
     text-align:center;
-
-
 }
 .img{
     width: 8em;
@@ -34,15 +32,23 @@ body{
     left: 0;
     width: 8em ;
     padding: 1em;
+    margin-right: 2em;
     background-color: greenyellow;
-    height: 10em;
+    height: 18em;
     text-align:center;
-    //,#rolldice,#restart
+
 }
 #submit{
     background-color: lawngreen;
-    position: absolute;
+    position:inherit;
     right: 0;
     height: 3em;
     width: 7em;
 }
+
+
+/*.middle{*/
+    /*background: url(../resources/board.png);*/
+    /*height: 200px;*/
+    /*width: 200px;*/
+/*}*/
