@@ -14,30 +14,30 @@ body{
     right: 0;
     margin: auto;
 }
-#player_1{
-    left: 0;
-    width: 8em ;
-    padding: 1em;
-    background-color: red;
-    height: 10em;
-    text-align:center;
-}
+/*#player_1{*/
+    /*left: 0;*/
+    /*width: 8em ;*/
+    /*padding: 1em;*/
+    /*background-color: red;*/
+    /*height: 10em;*/
+    /*text-align:center;*/
+/*}*/
 .img{
     width: 8em;
     height: 7em;
     padding-top: 1em;
 }
 
-#player_2{
-    left: 0;
-    width: 8em ;
-    padding: 1em;
-    margin-right: 2em;
-    background-color: greenyellow;
-    height: 10em;
-    text-align:center;
+/*#player_2{*/
+    /*left: 0;*/
+    /*width: 8em ;*/
+    /*padding: 1em;*/
+    /*margin-right: 2em;*/
+    /*background-color: greenyellow;*/
+    /*height: 10em;*/
+    /*text-align:center;*/
 
-}
+/*}*/
 #submit{
     background-color: lawngreen;
     position:inherit;
@@ -45,7 +45,8 @@ body{
     height: 3em;
     width: 7em;
 }
-
+/*.canvas{ position: absolute; top: 0; left: 0; }*/
+/*.left{position: relative}*/
 
 /*.middle{*/
     /*background: url(../resources/board.png);*/

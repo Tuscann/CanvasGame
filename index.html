@@ -13,18 +13,30 @@
 <body>
 <div class="game-board">
     <div class="left">
-        <div class="players" id="player_1">Player 1<img class="img" src="./resources/player1.jpg" alt="player1"></div>
-        <!--<div class="players" id="player_2">Player 2<img class="img" src="./resources/player2.jpg" alt="player1"></div>-->
-        <canvas id="myCanvas" width="150" height="200"></canvas>
+        <!--<div class="players" id="player_1">Player 1<img class="img" src="./resources/player1.jpg" alt="player1"></div>-->
+
+        <canvas id="firstPleayer" class="canvas" width="150" height="200"></canvas>
+        <canvas id="secoundPleayer" class="canvas" width="150" height="200"></canvas>
+
+
         <script>
-            var canvas = document.getElementById('myCanvas');
+            var canvas = document.getElementById('firstPleayer');
             var context = canvas.getContext('2d');
             var imageObj = new Image();
 
-            imageObj.onload = function() {
-                context.drawImage(imageObj, 0, 50);
+            imageObj.onload = function () {
+               context.drawImage(imageObj, 10, 70);
             };
-            imageObj.src = 'https://drive.google.com/file/d/0BxDXUwzVaY72SDhaSjUwOWFaM2c/view?usp=sharing';
+            imageObj.src = 'https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.6/img/user1-128x128.jpg';
+
+            var canvas2 = document.getElementById('secoundPleayer');
+            var context2 = canvas2.getContext('2d');
+            var imageObj2 = new Image();
+
+            imageObj2.onload = function () {
+                context2.drawImage(imageObj2, 10, 70);
+            };
+            imageObj2.src = 'https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.6/img/user3-128x128.jpg';
         </script>
     </div>
     <div class="middle">
