@@ -15,7 +15,7 @@ function render() {
     ctx.clearRect(0, 0, 840, 600);
     renderBoard();
     renderPieces();
-    rencerDices();
+    // rencerDices();
 }
 
 function calculatePossibleMoves(selectedPieceId) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
@@ -167,10 +167,10 @@ function renderBoard() {
 
 function renderPieces() {
     for (let position of board) {
-        for (let piece of position) {
+        for (let piece of position.piecesOn) {
             let image = piece.img,
-                x = piece.position.x,
-                y = piece.position.y,
+                x = position.x.start,
+                y = piece.y,
                 side = piece.side;
             if (piece.selected) {
                 side = piece.selectedSide;
