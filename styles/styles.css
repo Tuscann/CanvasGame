@@ -1,0 +1,80 @@
+html {
+    height:100%;
+    width:100%;
+}
+body {
+    width:100%;
+    height:100%;
+    font-size:26px;
+    background-color:whitesmoke;
+    font-family: calibry, serif;
+    margin:0;
+}
+#header {
+    height:8%;
+    font-size: 40px;
+    font-weight: bold;
+    background: green;
+    color: white;
+    text-align: center;
+}
+    #title {
+        position: relative;
+        top: 15px;
+    }
+#left, #game {
+    display: inline-block;
+    height:92%;
+    vertical-align: top;
+}
+#left {
+    width:30%;
+    background-color:orange;
+}
+
+#form {
+    margin-top: 100px;
+}
+    #form input,
+    #form span {
+        display:block;
+    }
+
+    #form input {
+        height: 28px;
+        width: 300px;
+    }
+
+    #form #start {
+        width: 304px;
+        margin-top: 10px;
+    }
+
+.players {
+    margin: 100px 20px;
+}
+.player-turn, #player-a, #player-b {
+    display:inline-block;
+}
+.player-turn {
+    vertical-align: top;
+}
+#player-a > span,
+#player-b > span {
+    display: block;
+}
+#game {
+    width:70%;
+    background: brown;
+
+}
+
+#myCanvas {
+    /*background-image: url('resources/board.png');*/
+    background-color: white;
+}
+
+#resources {
+    display: none;
+}
+
