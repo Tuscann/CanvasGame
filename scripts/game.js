@@ -2,20 +2,20 @@
 
 let winner = false;
 
-function gameLoop() {
+function game() {
     initCanvas();
     renderBoard();
     setupGame();
 
-    let FPS = 70;
-    let intervalId = setInterval(function() {
-        update();
-        render();
-    }, 1000/FPS);
-    if (winner) {
-        clearInterval(intervalId);
-        endGame();
+    requestAnimationFrame(gameLoop);
+}
+
+function gameLoop() {
+    update();
+    render();
+    if (!winner) {
+        requestAnimationFrame(gameLoop)
     }
 }
 
-gameLoop();
+game();

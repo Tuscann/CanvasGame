@@ -5,6 +5,7 @@ let pieceCounter = 0;
 let isPieceSelected = false;
 let dice1, dice2;
 let availablePositionsToPutPieceIn;
+let boardPicture = document.getElementById('board');
 
 
 function update() {
@@ -15,9 +16,10 @@ function update() {
 }
 
 function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     renderBoard();
     renderPieces();
-    // rencerDice();
+    // renderDice();
 }
 
 function gameTurn() {
@@ -82,6 +84,7 @@ function calculatePossibleMoves(selectedPieceId) { // returns list of areas for 
 }
 
 function setupGame() {
+
     initPiece('white', 0);
     initPiece('white', 0);
 
@@ -128,34 +131,37 @@ function initPiece(color, position) {
 }
 
 function pieceBuilder(color, position) {
+    let PIECE_SIDE = 45;
+    let PIECE_SELECTED_SIDE = 60;
     pieceCounter++;
-    return {
+
+    let piece = {
         id: color + pieceCounter,
         color: color,
-        y: stackPieceOnPosition(),
-        side:55,
-        selectedSide:60,
-        img: new Image({
-            src: (color === 'white')? './resources/whitePiece.png' : './resources/blackPiece.png',
-        }),
+        y: (function () { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
+            let piecesOnPosition = board[position].piecesOn.length;
+            if (piecesOnPosition >= 5) {
+                return - 800;
+            } else {
+                if (position < 12) {
+                    return board[0].y.start + piecesOnPosition * PIECE_SIDE;
+                } else {
+                    return board[12].y.start - piecesOnPosition * PIECE_SIDE;
+                }
+            }
+        })(),
+        side:PIECE_SIDE,
+        selectedSide:PIECE_SELECTED_SIDE,
+        img: document.getElementById(color + '-piece'),
         inPlay: true,
         active: false,
         isSelected: false,
         score: false
     };
 
-    function stackPieceOnPosition() { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
-        let piecesOnPosition = board[position].piecesOn.length;
-        if (piecesOnPosition >= 5) {
-            return - 800;
-        } else {
-            if (position < 12) {
-                return 40 + piecesOnPosition * 55;
-            } else {
-                return 560 - piecesOnPosition * 55;
-            }
-        }
-    }
+    return piece;
+
+
 }
 
 function initCanvas() {
@@ -166,13 +172,14 @@ function initCanvas() {
 }
 
 function renderBoard() {
-
-    let board = new Image();
-    board.src = 'resources/board.png';
-    ctx.drawImage(board, 0, 0);
-    // board.onload = function() {
-    //     ctx.drawImage(board, 0, 0);
-    // };
+    ctx.drawImage(boardPicture, 0, 0);
+    // if (boardPicture.complete) {
+    //     ctx.drawImage(boardPicture, 0, 0);
+    // } else {
+    //     boardPicture.onload = function() {
+    //         ctx.drawImage(boardPicture, 0, 0);
+    //     }
+    // }
 }
 
 function renderPieces() {
@@ -182,8 +189,14 @@ function renderPieces() {
                 x = position.x.start,
                 y = piece.y,
                 side = (piece.selected)? piece.selectedSide : piece.side;
-
-            ctx.drawImage(new Image({src:'./resources/blackPiece.png'}), 722, 40, 55, 55);
+            // if (image.complete) {
+            //         ctx.drawImage(image, x, y, side, side);
+            // } else {
+            //     image.onload = function() {
+            //         ctx.drawImage(image, x, y, side, side);
+            //     }
+            // }
+            ctx.drawImage(image, x, y, side, side);
         }
     }
 }
