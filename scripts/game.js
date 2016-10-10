@@ -7,14 +7,15 @@ function gameLoop() {
     renderBoard();
     setupGame();
 
-    if (winner) {
-        clearInterval(intervalId);
-    }
-    var FPS = 60;
+    let FPS = 70;
     let intervalId = setInterval(function() {
         update();
         render();
     }, 1000/FPS);
+    if (winner) {
+        clearInterval(intervalId);
+        endGame();
+    }
 }
 
 gameLoop();

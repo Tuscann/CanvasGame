@@ -8,14 +8,20 @@ let availablePositionsToPutPieceIn;
 
 
 function update() {
-    if (isPieceSelected) calculatePossibleMoves(isPieceSelected); //TODO: calculate possible moves for 'isPieceSelected' ( holds the id of the selected piece ).
+    if (isPieceSelected) {
+        calculatePossibleMoves(isPieceSelected);
+    }
+    gameTurn();
 }
 
 function render() {
-    ctx.clearRect(0, 0, 840, 600);
     renderBoard();
     renderPieces();
-    // rencerDices();
+    // rencerDice();
+}
+
+function gameTurn() {
+
 }
 
 function calculatePossibleMoves(selectedPieceId) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
@@ -118,6 +124,7 @@ function setupGame() {
 function initPiece(color, position) {
     let piece = pieceBuilder(color, position);
     board[position].piecesOn.push(piece);
+    board[position].occupiedBy = piece.color;
 }
 
 function pieceBuilder(color, position) {
@@ -125,44 +132,47 @@ function pieceBuilder(color, position) {
     return {
         id: color + pieceCounter,
         color: color,
-        y: function() { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
-            let piecesOnPosition = board[position].piecesOn.length;
-            if (piecesOnPosition >= 5) {
-                return - 800;
-            } else {
-                if (position < 12) {
-                    return 40 + piecesOnPosition * 55;
-                } else {
-                    return 560 - piecesOnPosition * 55;
-                }
-            }
-        },
+        y: stackPieceOnPosition(),
         side:55,
         selectedSide:60,
         img: new Image({
-            src: './resources/piece.png'
+            src: (color === 'white')? './resources/whitePiece.png' : './resources/blackPiece.png',
         }),
         inPlay: true,
+        active: false,
         isSelected: false,
         score: false
+    };
+
+    function stackPieceOnPosition() { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
+        let piecesOnPosition = board[position].piecesOn.length;
+        if (piecesOnPosition >= 5) {
+            return - 800;
+        } else {
+            if (position < 12) {
+                return 40 + piecesOnPosition * 55;
+            } else {
+                return 560 - piecesOnPosition * 55;
+            }
+        }
     }
 }
 
 function initCanvas() {
     console.log('Initiating canvas.');
 
-    canvas = document.getElementById('canvas');
+    canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
 }
 
 function renderBoard() {
-    console.log('Rendering board.');
 
     let board = new Image();
     board.src = 'resources/board.png';
-    board.onload = function() {
-        ctx.drawImage(board, 0, 0);
-    };
+    ctx.drawImage(board, 0, 0);
+    // board.onload = function() {
+    //     ctx.drawImage(board, 0, 0);
+    // };
 }
 
 function renderPieces() {
@@ -171,13 +181,11 @@ function renderPieces() {
             let image = piece.img,
                 x = position.x.start,
                 y = piece.y,
-                side = piece.side;
-            if (piece.selected) {
-                side = piece.selectedSide;
-            }
+                side = (piece.selected)? piece.selectedSide : piece.side;
 
-            ctx.drawImage(image, x, y, side, side);  // Possibly not working - expecting buggy behaviour, because of 'onload' crap.
+            ctx.drawImage(new Image({src:'./resources/blackPiece.png'}), 722, 40, 55, 55);
         }
     }
 }
+
 
