@@ -1,6 +1,6 @@
-var canvas = document.getElementById('myCanvas');
-var context = canvas.getContext('2d');
-var imageObj = new Image();
+let canvas = document.getElementById('myCanvas');
+let context = canvas.getContext('2d');
+let imageObj = new Image();
 
 imageObj.onload = function() {
     context.drawImage(imageObj, 69, 50);
