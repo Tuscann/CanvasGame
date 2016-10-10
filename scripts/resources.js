@@ -188,4 +188,67 @@ function renderPieces() {
     }
 }
 
+//******************************************************************************
+// Raly - Rolling dice
+//******************************************************************************
+function rollDiceForTurn() {
+    let btn = document.getElementById('roll-for-turn');
+    btn.addEventListener('click', roll);
+
+    let[whiteDice, whiteDiceImage] = roll('white');
+    let[blackDice, blackDiceImage] = roll('black');
+    drawDice(whiteDiceImage, blackDiceImage, [2, 12], [2, 120]);
+
+    if (whiteDice == blackDice){
+        roll();
+    }
+}
+
+function rollDiceForPlay(color) {
+    // let btn = document.getElementById('roll-for-turn');
+    // btn.addEventListener('click', roll);
+    //
+    // let color = 'white';
+    let[die1, dieImage1] = roll(color);
+    let[die2, dieImage2] = roll(color);
+
+    drawDice(dieImage1, dieImage2, [2, 60], [2, 80]);
+    return [die1, die2];
+}
+
+function roll(color) {
+    let dice = Math.floor((Math.random() * 6) + 1);
+
+    let diceImage = new Image();
+    diceImage.src = 'resources/' + color;
+
+    switch (dice) {
+        case 1:
+            diceImage.src += 'Dice1.png';
+            break;
+        case 2:
+            diceImage.src += 'Dice2.png';
+            break;
+        case 3:
+            diceImage.src += 'Dice3.png';
+            break;
+        case 4:
+            diceImage.src += 'Dice4.png';
+            break;
+        case 5:
+            diceImage.src += 'Dice5.png';
+            break;
+        case 6:
+            diceImage.src += 'Dice6.png';
+            break;
+    }
+    return [dice, diceImage];
+}
+
+function drawDice(dieImage1, dieImage2, diePosition1, diePosition2) {
+    ctx.drawImage(dieImage1, diePosition1[0], diePosition1[1], 18, 18);
+    ctx.drawImage(dieImage2, diePosition2[0], diePosition2[1], 18, 18);
+}
+
+
 
