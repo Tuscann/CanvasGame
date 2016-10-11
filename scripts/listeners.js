@@ -19,6 +19,7 @@ $(function() {
     $('#start-game').click(function() {
         setupGame();
         rollDiceForTurn();
+        startTurn();
         $('#start-game').hide();
     });
 
