@@ -48,6 +48,20 @@ function renderBoard() {
     };    
 }
 
+function renderSinglePiece() {
+    let btn = document.getElementById('roll-for-turn');
+    btn.addEventListener('click', drawPiece);
+    
+}
+
+function drawPiece() {
+    let color = 'white';
+    let piece = new Image();
+    piece.src = 'resources/'+ color + 'Piece.png';
+    ctx.drawImage(piece, 0, 0);
+}
+
+
 function rollDiceForTurn() {
      let btn = document.getElementById('roll-for-turn');
      btn.addEventListener('click', roll);
