@@ -80,8 +80,8 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     console.log(possiblePositionsToDropPiece);
 }
 
-function dropPeace(selectedPiece) {
-    for (let position of possiblePositionsToDropPiece){
+function dropPeace() {
+    for (let position of possiblePositionsToDropPiece) {
         let dropX = event.clientX;
         let dropY = event.clientY;
 
@@ -90,7 +90,7 @@ function dropPeace(selectedPiece) {
         if (board[position].x.start <= dropX
             && board[position].x.end >= dropX
             && board[position].y.start <= dropY
-            && board[position].y.end >= dropY){
+            && board[position].y.end >= dropY) {
 
             // Offset for size of the pull
             let x = board[position].x.start + 5,
@@ -101,8 +101,7 @@ function dropPeace(selectedPiece) {
             //ctx.drawImage(image, x, y, side, side);
             board[position].piecesOn.push(selectedPiece);
             return false;
-        }
-        else{
+        } else {
             let originalPosition = selectedPiece.position,
                 x = board[originalPosition].x.start + 5,
                 y = board[originalPosition].y.start + 5,
@@ -115,8 +114,8 @@ function dropPeace(selectedPiece) {
             board[originalPosition].piecesOn.push(selectedPiece);
             return false;
         }
+        return true;
     }
-    return true;
 }
 
 function setupGame() {

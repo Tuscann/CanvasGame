@@ -3,6 +3,7 @@
 function game() {
     initCanvas();
     renderBoard();
+    // setupGame();
 }
 
 function update(x, y) {  // Invoked from click listener.
