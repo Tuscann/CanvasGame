@@ -15,8 +15,8 @@ $(function() {
 
     document.getElementById('myCanvas').addEventListener('click', getMouseClickLocation, false);
 
-    $('myCanvas').onmousemove = function(event) {
+    window.addEventListener('mousemove', function(event) {
         cursorX = event.pageX - canvasOffsetLeft;
         cursorY = event.pageY - CANVAS_OFFSET_TOP;
-    }
+    });
 });

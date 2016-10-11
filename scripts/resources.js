@@ -1,6 +1,6 @@
 "use strict";
 
-let _ACTIVE_PLAYER = 'white';
+let _ACTIVE_PLAYER = 'black';
 
 
 function getMouseClickLocation(event) {
@@ -14,11 +14,13 @@ function getMouseClickLocation(event) {
 function selectingPiece(x, y) {
     for (let position of board) {
         for (let piece of position.piecesOn) {
-            if (x > piece.x.start && x < piece.x.end &&
-                y > piece.y.start && y < piece.y.end &&
+            if (x > piece.x.start && x < piece.x.end() &&
+                y > piece.y.start && y < piece.y.end() &&
                 position.occupiedBy === _ACTIVE_PLAYER) {
                 let selectedPiece = position.piecesOn.pop();
                 selectedPiece.selected = true;
+                selectedPiece.x.start = cursorX;
+                selectedPiece.y.start = cursorY;
 
                 return selectedPiece;
             }
@@ -125,7 +127,9 @@ function pieceBuilder(color, position) {
     pieceCounter++;
 
     let xStart = board[position].x.start + OFFSET_LEFT,
-        xEnd = xStart + PIECE_SIDE;
+        xEnd = function() {
+            return this.start + PIECE_SIDE;
+        };
     let yStart = (function () { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
             let piecesOnPosition = board[position].piecesOn.length;
             if (piecesOnPosition >= 5) {
@@ -138,7 +142,9 @@ function pieceBuilder(color, position) {
                 }
             }
         })(),
-        yEnd = yStart + PIECE_SIDE;
+        yEnd = function() {
+            return this.start + PIECE_SIDE;
+        };
 
     let piece = {
         id: color + pieceCounter,

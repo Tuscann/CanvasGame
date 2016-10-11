@@ -19,11 +19,11 @@ function update(x, y) {  // Invoked from click listener.
 }
 
 function animationLoop() {
-    updateSelectedPiece();
-    render();
     if (selectedPiece) {
-        requestAnimationFrame(animationLoop)
+        requestAnimationFrame(animationLoop);
+        updateSelectedPiece();
     }
+    render();
 }
 
 function updateSelectedPiece() {
