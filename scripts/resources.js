@@ -9,6 +9,7 @@ function getMouseClickLocation(event) {
 
     console.log('Getting mouse click');
     update(clickX, clickY);
+    dropPeace();
 }
 
 function selectingPiece(x, y) {
@@ -202,27 +203,26 @@ function renderSelectedPiece() {
 // Raly - Rolling dice
 //******************************************************************************
 function rollDiceForTurn() {
-    let btn = document.getElementById('roll-for-turn');
-    btn.addEventListener('click', roll);
-
-    let[whiteDice, whiteDiceImage] = roll('white');
-    let[blackDice, blackDiceImage] = roll('black');
-    drawDice(whiteDiceImage, blackDiceImage, [2, 12], [2, 120]);
+    let[whiteDice, whiteDiceImage] = [0, ''];
+    let[blackDice, blackDiceImage] = [0, ''];
 
     if (whiteDice == blackDice){
-        roll();
+        [whiteDice, whiteDiceImage] = roll('white');
+        [blackDice, blackDiceImage] = roll('black');
     }
+    window.addEventListener('click', function (event) {
+        console.log(event.clientX);
+        console.log(event.clientY);
+    });
+
+    drawDice(whiteDiceImage, blackDiceImage, [185, 275], [555, 275]);
 }
 
 function rollDiceForPlay(color) {
-    // let btn = document.getElementById('roll-for-turn');
-    // btn.addEventListener('click', roll);
-    //
-    // let color = 'white';
     let[die1, dieImage1] = roll(color);
     let[die2, dieImage2] = roll(color);
 
-    drawDice(dieImage1, dieImage2, [2, 60], [2, 80]);
+    drawDice(dieImage1, dieImage2, [5, 60], [5, 120]);
     return [die1, die2];
 }
 
@@ -256,8 +256,8 @@ function roll(color) {
 }
 
 function drawDice(dieImage1, dieImage2, diePosition1, diePosition2) {
-    ctx.drawImage(dieImage1, diePosition1[0], diePosition1[1], 18, 18);
-    ctx.drawImage(dieImage2, diePosition2[0], diePosition2[1], 18, 18);
+    ctx.drawImage(dieImage1, diePosition1[0], diePosition1[1], 70, 70);
+    ctx.drawImage(dieImage2, diePosition2[0], diePosition2[1], 70, 70);
 }
 
 

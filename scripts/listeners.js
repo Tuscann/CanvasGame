@@ -5,6 +5,7 @@ $(function() {
 
         $('#form').hide();
         $('.players').show();
+        rollDiceForTurn();
 
         // let windowWidth = screen.width;
         let windowWidth = $(window).width();
