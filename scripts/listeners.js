@@ -8,7 +8,8 @@ $(function() {
 
         // let windowWidth = screen.width;
         let windowWidth = $(window).width();
-        canvasOffsetLeft = (windowWidth - CANVAS_WIDTH) / 2;
+        // canvasOffsetLeft = (windowWidth - CANVAS_WIDTH) / 2;
+        canvasOffsetLeft = 200;
         $('#left').css('width', canvasOffsetLeft + 'px');
 
     });

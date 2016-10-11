@@ -36,7 +36,8 @@ body {
     vertical-align: top;
 }
 #left {
-    width: 50%;
+    /*width: 50%;*/
+    width:200px;
     background-color: orange;
     position: relative;
     z-index: 0;
