@@ -1,6 +1,6 @@
 "use strict";
 
-let _ACTIVE_PLAYER = 'black';
+
 
 
 function getMouseClickLocation(event) {
@@ -9,7 +9,7 @@ function getMouseClickLocation(event) {
 
     console.log('Getting mouse click');
     update(clickX, clickY);
-    dropPeace();
+    // dropPeace();
 }
 
 function selectingPiece(x, y) {
@@ -22,6 +22,7 @@ function selectingPiece(x, y) {
                 selectedPiece.selected = true;
                 selectedPiece.x.start = cursorX;
                 selectedPiece.y.start = cursorY;
+                selectedPiece.side = 60;
 
                 return selectedPiece;
             }
@@ -29,6 +30,13 @@ function selectingPiece(x, y) {
     }
 
     return false;
+}
+function startTurn() {
+    rollDiceForPlay(_ACTIVE_PLAYER);
+}
+function endTurn() {
+    (_ACTIVE_PLAYER === 'white')? _ACTIVE_PLAYER = 'black' : _ACTIVE_PLAYER = 'white';
+    startTurn();
 }
 
 function calculatePossibleMoves(selectedPiece) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
@@ -40,7 +48,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
 
     let opponent = (selectedPiece.color === 'white')? 'black': 'white';
 
-    // List of available moves, according to dice and selectedPiece position. '+' for white player, '-' for black player.
+    // List of available availableMoves, according to dice and selectedPiece position. '+' for white player, '-' for black player.
     let moves = [
         (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1, 23) : Math.max(0, selectedPiecePosition - die1),
         (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die2, 23) : Math.max(0, selectedPiecePosition - die2),
@@ -206,24 +214,31 @@ function rollDiceForTurn() {
     let[whiteDice, whiteDiceImage] = [0, ''];
     let[blackDice, blackDiceImage] = [0, ''];
 
-    if (whiteDice == blackDice){
+    while (whiteDice == blackDice){
         [whiteDice, whiteDiceImage] = roll('white');
         [blackDice, blackDiceImage] = roll('black');
     }
-    window.addEventListener('click', function (event) {
-        console.log(event.clientX);
-        console.log(event.clientY);
-    });
+    // window.addEventListener('click', function (event) {
+    //     console.log(event.clientX);
+    //     console.log(event.clientY);
+    // });
 
+    console.log('_DEV_FIRST_PLAYER whiteDice: ' + whiteDice + '; blackDice: ' + blackDice);
+    (whiteDice > blackDice)? _ACTIVE_PLAYER = 'white' : _ACTIVE_PLAYER = 'black';
+    startTurn();
     drawDice(whiteDiceImage, blackDiceImage, [185, 275], [555, 275]);
 }
 
 function rollDiceForPlay(color) {
+    spentMoves = 0;
     let[die1, dieImage1] = roll(color);
     let[die2, dieImage2] = roll(color);
 
+    console.log('_DEV_PLAYER_MOVES whiteDice:' + die1 + '; blackDice: ' + die2);
+    (die1 === die2)? availableMoves = 4 : availableMoves = 2;
+
     drawDice(dieImage1, dieImage2, [5, 60], [5, 120]);
-    return [die1, die2];
+    // return [die1, die2];
 }
 
 function roll(color) {

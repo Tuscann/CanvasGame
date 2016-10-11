@@ -3,13 +3,13 @@
 function game() {
     initCanvas();
     renderBoard();
-    setupGame();
-    
 }
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
         selectedPiece = false;
+        //TODO dropPiece(); - Raly
+        if (spentMoves === availableMoves) endTurn();
     } else {
         selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
@@ -39,5 +39,4 @@ function render() {
     // renderDice();
 }
 
-
-game();
+$(function() {game();});

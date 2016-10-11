@@ -2,6 +2,7 @@
 let POSITION_WIDTH = 55;
 let POSITION_HEIGHT = 250;
 
+let _ACTIVE_PLAYER;
 
 let canvas,
     ctx,
@@ -17,6 +18,8 @@ let possiblePositionsToDropPiece;
 let boardPicture = document.getElementById('board');
 let holdingPiece = false;
 let cursorX, cursorY;
+let availableMoves;
+let spentMoves;
 
 
 let board = [
