@@ -1,11 +1,12 @@
 "use strict";
 $(function() {
 
-    $('#start').click(function() {
+    $('#show-board').click(function() {
 
         $('#form').hide();
         $('.players').show();
-        rollDiceForTurn();
+        $('#start-game').show();
+
 
         // let windowWidth = screen.width;
         let windowWidth = $(window).width();
@@ -13,6 +14,12 @@ $(function() {
         canvasOffsetLeft = 200;
         $('#left').css('width', canvasOffsetLeft + 'px');
 
+    });
+
+    $('#start-game').click(function() {
+        setupGame();
+        rollDiceForTurn();
+        $('#start-game').hide();
     });
 
     document.getElementById('myCanvas').addEventListener('click', getMouseClickLocation, false);

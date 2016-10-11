@@ -7,8 +7,9 @@ function game() {
 }
 
 function update(x, y) {  // Invoked from click listener.
-    if (selectedPiece) {        
+    if (selectedPiece) {
         selectedPiece = dropPeace();
+        if (spentMoves === availableMoves) endTurn();
     } else {
         selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
@@ -39,5 +40,4 @@ function render() {
     // renderDice();
 }
 
-
-game();
+$(function() {game();});

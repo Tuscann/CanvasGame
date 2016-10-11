@@ -9,7 +9,7 @@ body {
     background-color:whitesmoke;
     font-family: calibry, serif;
     margin:0;
-    //overflow:hidden;
+    overflow:hidden;
 }
 #header {
     height:60px;
@@ -43,7 +43,15 @@ body {
     z-index: 0;
     transition: all, 0.3s, ease-in-out;
 }
-
+    #start-game {
+        display: none;
+        width: 80px;
+        height: 40px;
+        font-size: 20px;
+        position: relative;
+        margin: 10px;
+        float: right;
+    }
 #form {
     margin-top: 100px;
 }
@@ -57,7 +65,7 @@ body {
         width: 300px;
     }
 
-    #form #start {
+    #form #show-board {
         width: 304px;
         margin-top: 10px;
     }
