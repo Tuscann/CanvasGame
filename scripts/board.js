@@ -53,5 +53,5 @@ let board = [
     {x: {start: 560, end: 560 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 616, end: 616 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 672, end: 672 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
-    {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
+    {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'}
 ];

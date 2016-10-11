@@ -87,10 +87,23 @@ function dropPiece(x, y) {
         let dropX = x;
         let dropY = y;
 
-        if (board[position].x.start <= dropX
+        console.log(x);
+        console.log(y);
+        console.log(position);
+        console.log(board[position].x.start);
+        console.log(board[position].x.end);
+        console.log(board[position].y.start);
+        console.log(board[position].y.end);
+
+
+        if ((position <= 11 && board[position].x.start <= dropX
             && board[position].x.end >= dropX
             && board[position].y.start <= dropY
-            && board[position].y.end >= dropY) {
+            && board[position].y.end >= dropY) ||
+            (position > 11 && board[position].x.start <= dropX
+            && board[position].x.end >= dropX
+            && board[position].y.start >= dropY
+            && board[position].y.end <= dropY)) {
 
             let piece = pieceBuilder(selectedPiece.color, position);
             board[position].piecesOn.push(piece);
