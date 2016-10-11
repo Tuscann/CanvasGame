@@ -15,6 +15,7 @@ function selectingPiece(x, y) {
             if (x > piece.x.start && x < piece.x.end() &&
                 y > piece.y.start && y < piece.y.end() &&
                 position.occupiedBy === _ACTIVE_PLAYER) {
+
                 let selectedPiece = position.piecesOn.pop();
                 selectedPiece.selected = true;
                 selectedPiece.x.start = cursorX;
@@ -29,7 +30,7 @@ function selectingPiece(x, y) {
     return false;
 }
 function startTurn() {
-    rollDiceForPlay(_ACTIVE_PLAYER);
+    rollDiceForPlay();
 }
 function endTurn() {
     (_ACTIVE_PLAYER === 'white')? _ACTIVE_PLAYER = 'black' : _ACTIVE_PLAYER = 'white';
@@ -248,6 +249,7 @@ function renderSelectedPiece() {
 //******************************************************************************
 // Raly - Rolling dice
 //******************************************************************************
+
 function rollDiceForTurn() {
     let[rollWhiteDice, whiteDiceImage] = [0, ''];
     let[rollBlackDice, blackDiceImage] = [0, ''];
@@ -263,10 +265,10 @@ function rollDiceForTurn() {
     drawDice(whiteDiceImage, blackDiceImage, [200, 275], [570, 275]);
     
     let firstPlayer = '';
-    if (whiteDice > blackDice){
+    if (whiteDice > blackDice) {
         firstPlayer = 'white';
     }
-    else{
+    else {
         firstPlayer = 'black';
     }
     _ACTIVE_PLAYER = firstPlayer;
