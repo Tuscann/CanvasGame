@@ -9,9 +9,10 @@ body {
     background-color:whitesmoke;
     font-family: calibry, serif;
     margin:0;
+    overflow:hidden;
 }
 #header {
-    height:8%;
+    height:60px;
     font-size: 40px;
     font-weight: bold;
     background: green;
@@ -22,14 +23,24 @@ body {
         position: relative;
         top: 15px;
     }
+#content {
+    height: calc(100% - 60px);
+    width: 200%;
+    vertical-align: top;
+    position: absolute;
+    top:60px;
+}
 #left, #game {
     display: inline-block;
-    height:92%;
+    height: 100%;
     vertical-align: top;
 }
 #left {
-    width:30%;
-    background-color:orange;
+    width: 50%;
+    background-color: orange;
+    position: relative;
+    z-index: 0;
+    transition: all, 0.3s, ease-in-out;
 }
 
 #form {
@@ -64,14 +75,14 @@ body {
     display: block;
 }
 #game {
-    width:70%;
+    width:50%;
     background: brown;
-
+    transition: all, 0.3s, ease-in-out;
 }
 
 #myCanvas {
-    /*background-image: url('resources/board.png');*/
-    background-color: white;
+    position: relative;
+    z-index: 999;
 }
 
 #resources {

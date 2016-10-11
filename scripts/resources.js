@@ -1,58 +1,47 @@
 "use strict";
-let canvas;
-let ctx;
-let pieceCounter = 0;
-let isPieceSelected = false;
-let dice1, dice2;
-let availablePositionsToPutPieceIn;
-let boardPicture = document.getElementById('board');
+
+let _ACTIVE_PLAYER = 'white';
 
 
-function update() {
-    if (isPieceSelected) {
-        calculatePossibleMoves(isPieceSelected);
-    }
-    gameTurn();
+function getMouseClickLocation(event) {
+    let clickX = event.clientX - canvasOffsetLeft,
+        clickY = event.clientY - CANVAS_OFFSET_TOP;
+
+    console.log('Getting mouse click');
+    update(clickX, clickY);
 }
 
-function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    renderBoard();
-    renderPieces();
-    // renderDice();
-}
+function selectingPiece(x, y) {
+    for (let position of board) {
+        for (let piece of position.piecesOn) {
+            if (x > piece.x.start && x < piece.x.end &&
+                y > piece.y.start && y < piece.y.end &&
+                position.occupiedBy === _ACTIVE_PLAYER) {
+                let selectedPiece = position.piecesOn.pop();
+                selectedPiece.selected = true;
 
-function gameTurn() {
-
-}
-
-function calculatePossibleMoves(selectedPieceId) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
-    // _dev - assignment of dices for tests.
-    // [dice1, dice2] = [2, 4];
-
-    availablePositionsToPutPieceIn = [];
-    let selectedPiece;
-    let selectedPiecePosition;
-
-    // This loop is probably not necessary. I might just assign the piece object itself as argument.
-    loop1:
-        for (let position of board) {
-            for (let piece of position) {
-                if (piece.id === selectedPieceId) {
-                    selectedPiece = piece;
-                    selectedPiecePosition = position;
-                    break loop1; // Breaks both loops when finds matching id
-                }
+                return selectedPiece;
             }
         }
+    }
+
+    return false;
+}
+
+function calculatePossibleMoves(selectedPiece) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
+    // _dev - assignment of dices for tests.
+    [die1, die2] = [2, 4];
+
+    let selectedPiecePosition = selectedPiece.position;
+    possiblePositionsToDropPiece = [selectedPiecePosition]; // List of available positions, containing the current position, in case player wants to drop the piece on the same spot.
 
     let opponent = (selectedPiece.color === 'white')? 'black': 'white';
 
-    // List of available moves, according to dice and selectedPiece position.
+    // List of available moves, according to dice and selectedPiece position. '+' for white player, '-' for black player.
     let moves = [
-        selectedPiecePosition + dice1,
-        selectedPiecePosition + dice2,
-        selectedPiecePosition + dice1 + dice2
+        (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1, 23) : Math.max(0, selectedPiecePosition - die1),
+        (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die2, 23) : Math.max(0, selectedPiecePosition - die2),
+        (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1 + die2, 23) : Math.max(0, selectedPiecePosition - die1 - die2)
     ];
 
     // Array of booleans, checking if the target position is free, occupied by same team pieces, occupied by 1 opponent team piece or occupied by more opponent pieces.
@@ -72,13 +61,10 @@ function calculatePossibleMoves(selectedPieceId) { // returns list of areas for 
         board[moves[2]].occupiedBy === opponent && board[moves[2]].piecesOn.length === 1)
     );
 
-    // Adding [0-3] possible positions to list, for dropSelectedPiece listener.
+    // Adding [0-3] possible positions to the list.
     for (let i = 0; i < 3; i++) {
         if (possibleMoves[i]) {
-            availablePositionsToPutPieceIn.push({
-                x: {start: board[moves[i]].x.start, end: board[moves[i]].x.end},
-                y: {start: board[moves[i]].y.start, end: board[moves[i]].y.end}
-            })
+            possiblePositionsToDropPiece.push(moves[i]);
         }
     }
 }
@@ -122,23 +108,25 @@ function setupGame() {
     initPiece('black', 5);
     initPiece('black', 5);
     initPiece('black', 5);
+
+    renderStaticPieces();
 }
 
 function initPiece(color, position) {
     let piece = pieceBuilder(color, position);
     board[position].piecesOn.push(piece);
-    board[position].occupiedBy = piece.color;
+    if (board[position].occupiedBy === 'none') board[position].occupiedBy = piece.color;
 }
 
 function pieceBuilder(color, position) {
     let PIECE_SIDE = 45;
     let PIECE_SELECTED_SIDE = 60;
+    let OFFSET_LEFT = (POSITION_WIDTH - PIECE_SIDE) / 2;
     pieceCounter++;
 
-    let piece = {
-        id: color + pieceCounter,
-        color: color,
-        y: (function () { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
+    let xStart = board[position].x.start + OFFSET_LEFT,
+        xEnd = xStart + PIECE_SIDE;
+    let yStart = (function () { // Positions up to 5 pieces on the position. TODO: implement indication in case of more then 5 pieces.
             let piecesOnPosition = board[position].piecesOn.length;
             if (piecesOnPosition >= 5) {
                 return - 800;
@@ -150,18 +138,24 @@ function pieceBuilder(color, position) {
                 }
             }
         })(),
-        side:PIECE_SIDE,
-        selectedSide:PIECE_SELECTED_SIDE,
+        yEnd = yStart + PIECE_SIDE;
+
+    let piece = {
+        id: color + pieceCounter,
+        color: color,
+        x: {start: xStart, end: xEnd},
+        y: {start: yStart, end: yEnd},
+        position: position,
+        side: PIECE_SIDE,
+        selectedSide: PIECE_SELECTED_SIDE,
         img: document.getElementById(color + '-piece'),
         inPlay: true,
         active: false,
-        isSelected: false,
+        selected: false,
         score: false
     };
 
     return piece;
-
-
 }
 
 function initCanvas() {
@@ -173,32 +167,29 @@ function initCanvas() {
 
 function renderBoard() {
     ctx.drawImage(boardPicture, 0, 0);
-    // if (boardPicture.complete) {
-    //     ctx.drawImage(boardPicture, 0, 0);
-    // } else {
-    //     boardPicture.onload = function() {
-    //         ctx.drawImage(boardPicture, 0, 0);
-    //     }
-    // }
 }
 
-function renderPieces() {
+function renderStaticPieces() {
     for (let position of board) {
         for (let piece of position.piecesOn) {
             let image = piece.img,
-                x = position.x.start,
-                y = piece.y,
-                side = (piece.selected)? piece.selectedSide : piece.side;
-            // if (image.complete) {
-            //         ctx.drawImage(image, x, y, side, side);
-            // } else {
-            //     image.onload = function() {
-            //         ctx.drawImage(image, x, y, side, side);
-            //     }
-            // }
+                x = piece.x.start,
+                y = piece.y.start,
+                side = piece.side;
+
             ctx.drawImage(image, x, y, side, side);
         }
     }
+}
+
+function renderSelectedPiece() {
+    let image = selectedPiece.img,
+        pieceOffset = selectedPiece.side / 2,
+        x = cursorX - pieceOffset,
+        y = cursorY - pieceOffset,
+        side = selectedPiece.side;
+
+    ctx.drawImage(image, x, y, side, side);
 }
 
 //******************************************************************************

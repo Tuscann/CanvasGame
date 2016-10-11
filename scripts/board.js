@@ -2,6 +2,23 @@
 let POSITION_WIDTH = 55;
 let POSITION_HEIGHT = 250;
 
+
+let canvas,
+    ctx,
+    CANVAS_WIDTH = 840,
+    CANVAS_HEIGHT = 600,
+    CANVAS_OFFSET_TOP = 60,
+    canvasOffsetLeft;
+
+let pieceCounter = 0;
+let selectedPiece = false;
+let die1, die2;
+let possiblePositionsToDropPiece;
+let boardPicture = document.getElementById('board');
+let holdingPiece = false;
+let cursorX, cursorY;
+
+
 let board = [
     // 0-11
     {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 40, end: 40 + POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},

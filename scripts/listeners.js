@@ -2,10 +2,21 @@
 $(function() {
 
     $('#start').click(function() {
-        console.log('Showing..Hiding...');
 
         $('#form').hide();
         $('.players').show();
-        $('#game').css('display', 'inline-block');
+
+        // let windowWidth = screen.width;
+        let windowWidth = $(window).width();
+        canvasOffsetLeft = (windowWidth - CANVAS_WIDTH) / 2;
+        $('#left').css('width', canvasOffsetLeft + 'px');
+
     });
+
+    document.getElementById('myCanvas').addEventListener('click', getMouseClickLocation, false);
+
+    $('myCanvas').onmousemove = function(event) {
+        cursorX = event.pageX - canvasOffsetLeft;
+        cursorY = event.pageY - CANVAS_OFFSET_TOP;
+    }
 });

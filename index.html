@@ -8,47 +8,50 @@
 </head>
 <body>
     <div id="header"><span id="title">Backgammon game</span></div>
-    <div id="left">
-        <div id="form">
-            <form>
-                <span>Player A name:</span>
-                <input type="text" id="player-a-form" />
-                <span>Player B name:</span>
-                <input type="text" id="player-b-form" />
-                <button id="start" onclick="return false">Start</button>
-            </form>
-        </div>
-        <div class="players" id="player-a-wrapper">
-            <div class="player-turn" id="player-a-active" data-hidden="true">Active player: </div>
-            <div id="player-a">
-                <span id="player-a-name">_Player_B_name</span>
-                <span>Score: <span id="player-a-score">_Score_A</span></span>
+    <div id="content"><!--
+     --><div id="left">
+            <div id="form">
+                <form>
+                    <span>Player A name:</span>
+                    <input type="text" id="player-a-form" />
+                    <span>Player B name:</span>
+                    <input type="text" id="player-b-form" />
+                    <button id="start" onclick="return false">Start</button>
+                </form>
             </div>
-        </div>
-        <div class="players" id="player-b-wrapper">
-            <div class="player-turn" id="player-b-active" data-hidden="true">Active player: </div>
-            <div id="player-b">
-                <span id="player-b-name">_Player_B_name</span>
-                <span>Score: <span id="player-b-score">_Score_B</span></span>
+            <div class="players" id="player-a-wrapper">
+                <div class="player-turn" id="player-a-active" data-hidden="true">Active player: </div>
+                <div id="player-a">
+                    <span id="player-a-name">_Player_B_name</span>
+                    <span>Score: <span id="player-a-score">_Score_A</span></span>
+                </div>
             </div>
-        </div>
-    </div><!--
+            <div class="players" id="player-b-wrapper">
+                <div class="player-turn" id="player-b-active" data-hidden="true">Active player: </div>
+                <div id="player-b">
+                    <span id="player-b-name">_Player_B_name</span>
+                    <span>Score: <span id="player-b-score">_Score_B</span></span>
+                </div>
+            </div>
+        </div><!--
  --><div id="game">
         <canvas id="myCanvas" width="840px" height="600px">
 
         </canvas>
     </div>
-    <div id="resources">
-        <img src="resources/board.png" id="board"/>
-        <img src="resources/blackPiece.png" id="black-piece"/>
-        <img src="resources/whitePiece.png" id="white-piece"/>
+        <div id="resources">
+            <img src="resources/board.png" id="board"/>
+            <img src="resources/blackPiece.png" id="black-piece"/>
+            <img src="resources/whitePiece.png" id="white-piece"/>
+        </div>
+
     </div>
     <footer></footer>
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
-    <script src="scripts/listeners.js"></script>
     <script src="scripts/board.js"></script>
     <script src="scripts/resources.js"></script>
+    <script src="scripts/listeners.js"></script>
     <script src="scripts/game.js"></script>
 </body>
 </html>

@@ -1,21 +1,42 @@
 "use strict";
 
-let winner = false;
-
 function game() {
     initCanvas();
     renderBoard();
     setupGame();
-
-    requestAnimationFrame(gameLoop);
 }
 
-function gameLoop() {
-    update();
-    render();
-    if (!winner) {
-        requestAnimationFrame(gameLoop)
+function update(x, y) {  // Invoked from click listener.
+    if (selectedPiece) {
+        selectedPiece = false;
+    } else {
+        selectedPiece = selectingPiece(x, y);
+        if (selectedPiece) {
+            calculatePossibleMoves(selectedPiece);
+            requestAnimationFrame(animationLoop);
+        }
     }
 }
+
+function animationLoop() {
+    updateSelectedPiece();
+    render();
+    if (selectedPiece) {
+        requestAnimationFrame(animationLoop)
+    }
+}
+
+function updateSelectedPiece() {
+    selectedPiece.x.start = cursorX;
+    selectedPiece.y.start = cursorY;
+}
+
+function render() {
+    renderBoard();
+    renderStaticPieces();
+    if (selectedPiece) renderSelectedPiece();
+    // renderDice();
+}
+
 
 game();
