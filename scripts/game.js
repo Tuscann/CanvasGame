@@ -7,7 +7,7 @@ function game() {
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
-        selectedPiece = dropPeace(selectedPiece);
+        selectedPiece = dropPeace();
         if (spentMoves === availableMoves) endTurn();
     } else {
         selectedPiece = selectingPiece(x, y);

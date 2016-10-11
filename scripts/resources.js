@@ -81,44 +81,42 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
 }
 
 function dropPeace(selectedPiece) {
-    window.addEventListener('click', function (event) {
-        for (let position of possiblePositionsToDropPiece){
-            let dropX = event.clientX;
-            let dropY = event.clientY;
+    for (let position of possiblePositionsToDropPiece){
+        let dropX = event.clientX;
+        let dropY = event.clientY;
 
-            //console.log(selectedPiece);
+        //console.log(selectedPiece);
 
-            if (board[position].x.start <= dropX
-                && board[position].x.end >= dropX
-                && board[position].y.start <= dropY
-                && board[position].y.end >= dropY){
+        if (board[position].x.start <= dropX
+            && board[position].x.end >= dropX
+            && board[position].y.start <= dropY
+            && board[position].y.end >= dropY){
 
-                // Offset for size of the pull
-                let x = board[position].x.start + 5,
-                    y = board[position].y.start + 5,
-                    side = selectedPiece.side,
-                    image = selectedPiece.img;
-                //console.log(side);
-                //ctx.drawImage(image, x, y, side, side);
-                board[position].piecesOn.push(selectedPiece);
-                return false;
-            }
-            else{
-                let originalPosition = selectedPiece.position,
-                    x = board[originalPosition].x.start + 5,
-                    y = board[originalPosition].y.start + 5,
-                    side = selectedPiece.side,
-                    image = selectedPiece.img;
-
-                console.log(selectedPiece);
-                console.log(side);
-
-                board[originalPosition].piecesOn.push(selectedPiece);
-                return false;
-            }
+            // Offset for size of the pull
+            let x = board[position].x.start + 5,
+                y = board[position].y.start + 5,
+                side = selectedPiece.side,
+                image = selectedPiece.img;
+            //console.log(side);
+            //ctx.drawImage(image, x, y, side, side);
+            board[position].piecesOn.push(selectedPiece);
+            return false;
         }
-        return true;
-    });
+        else{
+            let originalPosition = selectedPiece.position,
+                x = board[originalPosition].x.start + 5,
+                y = board[originalPosition].y.start + 5,
+                side = selectedPiece.side,
+                image = selectedPiece.img;
+
+            console.log(selectedPiece);
+            console.log(side);
+
+            board[originalPosition].piecesOn.push(selectedPiece);
+            return false;
+        }
+    }
+    return true;
 }
 
 function setupGame() {
