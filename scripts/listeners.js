@@ -18,7 +18,7 @@ $(function() {
 
     $('#start-game').click(function() {
         setupGame();
-        _ACTIVE_PLAYER = rollDiceForTurn();
+        rollDiceForTurn();
         startTurn();
         $('#start-game').hide();
     });

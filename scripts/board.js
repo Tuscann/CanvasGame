@@ -9,11 +9,14 @@ let canvas,
     CANVAS_WIDTH = 840,
     CANVAS_HEIGHT = 600,
     CANVAS_OFFSET_TOP = 60,
-    canvasOffsetLeft;
+    canvasOffsetLeft,
+    DIE_COORDINATES_1 = [5, 60],
+    DIE_COORDINATES_2 = [5, 120];
 
 let pieceCounter = 0;
 let selectedPiece = false;
 let die1, die2;
+let dieImage1, dieImage2;
 let possiblePositionsToDropPiece;
 let boardPicture = document.getElementById('board');
 let holdingPiece = false;
@@ -50,5 +53,5 @@ let board = [
     {x: {start: 560, end: 560 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 616, end: 616 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 672, end: 672 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
-    {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
+    {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 515, end: 515 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'}
 ];

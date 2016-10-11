@@ -31,6 +31,7 @@ function selectingPiece(x, y) {
 }
 function startTurn() {
     rollDiceForPlay();
+    drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
 }
 function endTurn() {
     (_ACTIVE_PLAYER === 'white')? _ACTIVE_PLAYER = 'black' : _ACTIVE_PLAYER = 'white';
@@ -39,10 +40,10 @@ function endTurn() {
 
 function calculatePossibleMoves(selectedPiece) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
     // _dev - assignment of dices for tests.
-    [die1, die2] = [2, 4];
+    // [die1, die2] = [2, 4];
 
     let selectedPiecePosition = selectedPiece.position;
-    possiblePositionsToDropPiece = [selectedPiecePosition]; // List of available positions, containing the current position, in case player wants to drop the piece on the same spot.
+    possiblePositionsToDropPiece = []; // List of available positions, containing the current position, in case player wants to drop the piece on the same spot.
 
     let opponent = (selectedPiece.color === 'white')? 'black': 'white';
 
@@ -50,7 +51,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     let moves = [
         (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1, 23) : Math.max(0, selectedPiecePosition - die1),
         (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die2, 23) : Math.max(0, selectedPiecePosition - die2),
-        (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1 + die2, 23) : Math.max(0, selectedPiecePosition - die1 - die2)
+        (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1 + die2, 23) : Math.max(0, selectedPiecePosition - (die1 + die2))
     ];
 
 
@@ -81,42 +82,44 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     console.log(possiblePositionsToDropPiece);
 }
 
-function dropPeace() {
+function dropPiece(x, y) {
+
     for (let position of possiblePositionsToDropPiece) {
-        let dropX = event.clientX;
-        let dropY = event.clientY;
+        let dropX = x;
+        let dropY = y;
 
-        //console.log(selectedPiece);
+        console.log(x);
+        console.log(y);
+        console.log(position);
+        console.log(board[position].x.start);
+        console.log(board[position].x.end);
+        console.log(board[position].y.start);
+        console.log(board[position].y.end);
 
-        if (board[position].x.start <= dropX
+
+        if ((position <= 11 && board[position].x.start <= dropX
             && board[position].x.end >= dropX
             && board[position].y.start <= dropY
-            && board[position].y.end >= dropY) {
+            && board[position].y.end >= dropY) ||
+            (position > 11 && board[position].x.start <= dropX
+            && board[position].x.end >= dropX
+            && board[position].y.start >= dropY
+            && board[position].y.end <= dropY)) {
 
-            // Offset for size of the pull
-            let x = board[position].x.start + 5,
-                y = board[position].y.start + 5,
-                side = selectedPiece.side,
-                image = selectedPiece.img;
-            //console.log(side);
-            //ctx.drawImage(image, x, y, side, side);
-            board[position].piecesOn.push(selectedPiece);
-            return false;
-        } else {
-            let originalPosition = selectedPiece.position,
-                x = board[originalPosition].x.start + 5,
-                y = board[originalPosition].y.start + 5,
-                side = selectedPiece.side,
-                image = selectedPiece.img;
-
-            console.log(selectedPiece);
-            console.log(side);
-
-            board[originalPosition].piecesOn.push(selectedPiece);
-            return false;
+            let piece = pieceBuilder(selectedPiece.color, position);
+            board[position].piecesOn.push(piece);
+            board[position].occupiedBy = _ACTIVE_PLAYER;
+            return 1;
         }
-        return true;
     }
+    console.log(selectedPiece);
+    let originalPosition = selectedPiece.position;
+    console.log(originalPosition);
+    let piece = pieceBuilder(selectedPiece.color, originalPosition);
+    piece.id = selectedPiece.id;
+    board[originalPosition].piecesOn.push(piece);
+    console.log(board[originalPosition].piecesOn);
+    return 0;
 }
 
 function setupGame() {
@@ -272,19 +275,21 @@ function rollDiceForTurn() {
         firstPlayer = 'black';
     }
     _ACTIVE_PLAYER = firstPlayer;
-    return firstPlayer;
+    // return firstPlayer;
 }
 
-function rollDiceForPlay(color) {
+function rollDiceForPlay() {
     spentMoves = 0;
-    let[die1, dieImage1] = roll(color);
-    let[die2, dieImage2] = roll(color);
+    let[die1Roll, dieImage1Roll] = roll(_ACTIVE_PLAYER);
+    let[die2Roll, dieImage2Roll] = roll(_ACTIVE_PLAYER);
+
+    die1 = die1Roll;
+    die2 = die2Roll; 
+    dieImage1 = dieImage1Roll;
+    dieImage2 = dieImage2Roll;
 
     console.log('_DEV_PLAYER_MOVES whiteDice:' + die1 + '; blackDice: ' + die2);
     (die1 === die2)? availableMoves = 4 : availableMoves = 2;
-
-    drawDice(dieImage1, dieImage2, [5, 60], [5, 120]);
-    // return [die1, die2];
 }
 
 function roll(color) {
