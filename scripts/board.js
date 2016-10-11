@@ -18,6 +18,8 @@ let boardPicture = document.getElementById('board');
 let holdingPiece = false;
 let cursorX, cursorY;
 
+let whiteDice = 0;
+let blackDice = 0;
 
 let board = [
     // 0-11

@@ -8,11 +8,12 @@ function game() {
 }
 
 function update(x, y) {  // Invoked from click listener.
-    if (selectedPiece) {
-        selectedPiece = false;
+    if (selectedPiece) {        
+        selectedPiece = dropPeace(selectedPiece);
     } else {
         selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
+            console.log('on select ' + selectedPiece);
             calculatePossibleMoves(selectedPiece);
             requestAnimationFrame(animationLoop);
         }
