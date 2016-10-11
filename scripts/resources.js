@@ -75,7 +75,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     console.log(possiblePositionsToDropPiece);
 }
 
-function dropPeace(selectedPiece) {
+function dropPeace() {
     window.addEventListener('click', function (event) {
         for (let position of possiblePositionsToDropPiece){
             let dropX = event.clientX;

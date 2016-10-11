@@ -3,13 +3,12 @@
 function game() {
     initCanvas();
     renderBoard();
-    setupGame();
-    
+    setupGame();    
 }
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {        
-        selectedPiece = dropPeace(selectedPiece);
+        selectedPiece = dropPeace();
     } else {
         selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
