@@ -21,6 +21,8 @@ let cursorX, cursorY;
 let availableMoves;
 let spentMoves;
 
+let whiteDice = 0;
+let blackDice = 0;
 
 let board = [
     // 0-11

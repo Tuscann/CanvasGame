@@ -1,15 +1,12 @@
 "use strict";
 
 
-
-
 function getMouseClickLocation(event) {
     let clickX = event.clientX - canvasOffsetLeft,
         clickY = event.clientY - CANVAS_OFFSET_TOP;
 
     console.log('Getting mouse click');
     update(clickX, clickY);
-    // dropPeace();
 }
 
 function selectingPiece(x, y) {
@@ -55,6 +52,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
         (_ACTIVE_PLAYER === 'white')? Math.min(selectedPiecePosition + die1 + die2, 23) : Math.max(0, selectedPiecePosition - die1 - die2)
     ];
 
+
     // Array of booleans, checking if the target position is free, occupied by same team pieces, occupied by 1 opponent team piece or occupied by more opponent pieces.
     let possibleMoves = [
         board[moves[0]].occupiedBy === 'none' ||
@@ -78,6 +76,49 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
             possiblePositionsToDropPiece.push(moves[i]);
         }
     }
+
+    console.log(possiblePositionsToDropPiece);
+}
+
+function dropPeace(selectedPiece) {
+    window.addEventListener('click', function (event) {
+        for (let position of possiblePositionsToDropPiece){
+            let dropX = event.clientX;
+            let dropY = event.clientY;
+
+            //console.log(selectedPiece);
+
+            if (board[position].x.start <= dropX
+                && board[position].x.end >= dropX
+                && board[position].y.start <= dropY
+                && board[position].y.end >= dropY){
+
+                // Offset for size of the pull
+                let x = board[position].x.start + 5,
+                    y = board[position].y.start + 5,
+                    side = selectedPiece.side,
+                    image = selectedPiece.img;
+                //console.log(side);
+                //ctx.drawImage(image, x, y, side, side);
+                board[position].piecesOn.push(selectedPiece);
+                return false;
+            }
+            else{
+                let originalPosition = selectedPiece.position,
+                    x = board[originalPosition].x.start + 5,
+                    y = board[originalPosition].y.start + 5,
+                    side = selectedPiece.side,
+                    image = selectedPiece.img;
+
+                console.log(selectedPiece);
+                console.log(side);
+
+                board[originalPosition].piecesOn.push(selectedPiece);
+                return false;
+            }
+        }
+        return true;
+    });
 }
 
 function setupGame() {
@@ -211,22 +252,28 @@ function renderSelectedPiece() {
 // Raly - Rolling dice
 //******************************************************************************
 function rollDiceForTurn() {
-    let[whiteDice, whiteDiceImage] = [0, ''];
-    let[blackDice, blackDiceImage] = [0, ''];
+    let[rollWhiteDice, whiteDiceImage] = [0, ''];
+    let[rollBlackDice, blackDiceImage] = [0, ''];
+    
+    whiteDice = rollWhiteDice;
+    blackDice = rollBlackDice;
 
     while (whiteDice == blackDice){
         [whiteDice, whiteDiceImage] = roll('white');
         [blackDice, blackDiceImage] = roll('black');
     }
-    // window.addEventListener('click', function (event) {
-    //     console.log(event.clientX);
-    //     console.log(event.clientY);
-    // });
 
-    console.log('_DEV_FIRST_PLAYER whiteDice: ' + whiteDice + '; blackDice: ' + blackDice);
-    (whiteDice > blackDice)? _ACTIVE_PLAYER = 'white' : _ACTIVE_PLAYER = 'black';
-    startTurn();
-    drawDice(whiteDiceImage, blackDiceImage, [185, 275], [555, 275]);
+    drawDice(whiteDiceImage, blackDiceImage, [200, 275], [570, 275]);
+    
+    let firstPlayer = '';
+    if (whiteDice > blackDice){
+        firstPlayer = 'white';
+    }
+    else{
+        firstPlayer = 'black';
+    }
+    _ACTIVE_PLAYER = firstPlayer;
+    return firstPlayer;
 }
 
 function rollDiceForPlay(color) {

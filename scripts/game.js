@@ -7,12 +7,12 @@ function game() {
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
-        selectedPiece = false;
-        //TODO dropPiece(); - Raly
+        selectedPiece = dropPeace(selectedPiece);
         if (spentMoves === availableMoves) endTurn();
     } else {
         selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
+            console.log('on select ' + selectedPiece);
             calculatePossibleMoves(selectedPiece);
             requestAnimationFrame(animationLoop);
         }
