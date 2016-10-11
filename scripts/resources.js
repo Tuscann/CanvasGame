@@ -81,19 +81,20 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     console.log(possiblePositionsToDropPiece);
 }
 
-function dropPeace(x, y) {
+function dropPiece(x, y) {
 
     for (let position of possiblePositionsToDropPiece) {
         let dropX = x;
         let dropY = y;
 
         if (board[position].x.start <= dropX
-            && board[position].x.end() >= dropX
+            && board[position].x.end >= dropX
             && board[position].y.start <= dropY
-            && board[position].y.end() >= dropY) {
+            && board[position].y.end >= dropY) {
 
             let piece = pieceBuilder(selectedPiece.color, position);
             board[position].piecesOn.push(piece);
+            board[position].occupiedBy = _ACTIVE_PLAYER;
             return 1;
         }
     }

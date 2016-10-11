@@ -8,7 +8,7 @@ function game() {
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
-        let turnCompleted = dropPeace(x, y);
+        let turnCompleted = dropPiece(x, y);
         selectedPiece = false;
         spentMoves += turnCompleted;
         if (spentMoves === availableMoves) endTurn();
