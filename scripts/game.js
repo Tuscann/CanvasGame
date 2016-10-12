@@ -16,7 +16,12 @@ function update(x, y) {  // Invoked from click listener.
 
         render();
     } else {
-        selectedPiece = selectingPiece(x, y);
+        if (out.get(_ACTIVE_PLAYER).piecesOn.length > 0){
+            selectedPiece = selectingOutPiece(x, y);
+        }
+        else {
+            selectedPiece = selectingPiece(x, y);
+        }
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
             calculatePossibleMoves(selectedPiece);

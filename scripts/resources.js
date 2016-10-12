@@ -34,6 +34,26 @@ function selectingPiece(x, y) {
 
     return false;
 }
+
+function selectingOutPiece(x, y) {
+
+    let piece = out.get(_ACTIVE_PLAYER).piecesOn.pop();
+    if (x > piece.x.start
+        && x < piece.x.end()
+        && y > piece.y.start
+        && y < piece.y.end()){
+
+        let selectedPiece = piece;
+        selectedPiece.selected = true;
+        selectedPiece.x.start = cursorX;
+        selectedPiece.y.start = cursorY;
+        selectedPiece.side = 60;
+
+        return selectedPiece;
+    }
+    return false;
+}
+
 function startTurn() {
     rollDiceForPlay();
     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
