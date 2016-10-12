@@ -53,7 +53,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
         for (let i = 1; i <= availableMoves; i++) {
             moves.push((activePlayer === 'white')? Math.min(selectedPiecePosition + i * die1, 23) : Math.max(0, selectedPiecePosition - (i * die1)));
         }
-    } else { // TODO: Monitor and solve pair issue.
+    } else { // TODO: Monitor and solve pair issue.1
         moves.push((activePlayer === 'white')? Math.min(selectedPiecePosition + die1, 23) : Math.max(0, selectedPiecePosition - die1));
         moves.push((activePlayer === 'white')? Math.min(selectedPiecePosition + die2, 23) : Math.max(0, selectedPiecePosition - die2));
         moves.push((activePlayer === 'white')? Math.min(selectedPiecePosition + die1 + die2, 23) : Math.max(0, selectedPiecePosition - (die1 + die2)));
