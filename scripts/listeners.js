@@ -18,7 +18,7 @@ $(function() {
 
     $('#start-game').click(function() {
         setupGame();
-        rollDiceForTurn(startTurn);
+        rollDiceForTurn(startTurn); // Callback to delay Rolling of DiceForPlay();
         $('#start-game').hide();
     });
 
