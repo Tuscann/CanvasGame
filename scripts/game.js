@@ -8,15 +8,13 @@ function game() {
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
-        let turnCompleted = dropPiece(x, y);
-        selectedPiece = false;
-        spentMoves += turnCompleted;
-
-        if (spentMoves === availableMoves) endTurn();
-
+        let moves = dropPiece(x, y);
+        selectedPiece = false; // cleanup by moving in dropPiece and renaming,
+        availableMoves -= moves;
+        if (availableMoves <= 0) endTurn();
         render();
     } else {
-        if (out.get(_ACTIVE_PLAYER).piecesOn.length > 0){
+        if (out.get(activePlayer).piecesOn.length > 0){
             selectedPiece = selectingOutPiece(x, y);
         }
         else {
@@ -34,7 +32,7 @@ function update(x, y) {  // Invoked from click listener.
             
             requestAnimationFrame(animationLoop);
         }
-    }    
+    }
 }
 
 function animationLoop() {
