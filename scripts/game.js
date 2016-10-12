@@ -10,8 +10,8 @@ function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
         let moves = dropPiece(x, y);
         selectedPiece = false; // cleanup by moving in dropPiece and renaming,
-        availableMoves -= moves;
-        if (availableMoves <= 0) endTurn();
+        availableMovesAmount -= moves;
+        if (availableMovesAmount <= 0) endTurn();
         render();
     } else {
         if (out.get(activePlayer).piecesOn.length > 0){
