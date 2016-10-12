@@ -1,9 +1,6 @@
-TODO:
-
---Регулатор на ходовете. Трябва да има бутон, който да финализира сегашния ход и да дава начало на следващия. Дефакто всичко, което трябва хода да прави е да промени кои пулчета да могат да се местят. Как може това да стане лесно?
-
---Логика за печелене на точки - само когато всички пулчета са в съответния дом. Можеш да прибереш пулче само е на позиция, съвпадаща със заровете, или ако нямаш валиден ход (не можеш да местиш нито едно пулче, според заровете), като в този случай трябва да махнеш пулче от най-голямата позиция. 
-
-Това остава да се направи за да имаме игра. Ако съм изпуснал някое правило - коригирайте ме :Д
-
-
+Basic Backgammon game with Html5 canvas + Javascrpit for <b>JS Fundamentals - September 2016<b> in Softuni.
+Contributors:<br>
+1.https://github.com/achobanov - Alex Chobanov<br>
+2.https://github.com/ralitsaDmt - Ralitsa Dimitrova<br>
+3.https://github.com/Tuscann - Zhivko Nedyalkov<br>
+4.https://github.com/Merkanto - Miroslav Zhelezchev<br>
