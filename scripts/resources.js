@@ -60,11 +60,37 @@ function startTurn() {
     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
 }
 function endTurn() {
+    winner = countScore();
+    if (winner) endGame();
     (activePlayer === 'white')? activePlayer = 'black' : activePlayer = 'white';
     startTurn();
 }
 
-function calculatePossibleMoves(selectedPiece) { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
+function countScore() {
+    if (board[24].piecesOn.length === 15) {
+        return 'white';
+    } else if (board[25].piecesOn.length === 15) {
+        return 'black';
+    } else {
+        return false;
+    }
+}
+
+function endGame() {
+    removeListeners();
+    drawEndGame();
+}
+
+function removeListeners() {
+    document.getElementById('myCanvas').removeEventListener('click', function () {
+        console.log('Removing click listener');
+    }, false);
+    window.removeEventListener('mousemove', function() {
+        console.log('Removing mousemove listener');
+    }, false);
+}
+
+function calculatePossibleMoves() { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
     // _dev - assignment of dices for tests.
     // [die1, die2] = [2, 4];
 
@@ -73,8 +99,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
 
     let opponent = (selectedPiece.color === 'white')? 'black': 'white';
 
-    // TODO: write function checkForScoring -> check if all pieces of active_player are in the last field;
-    // TODO:                                -> check if there are pieces in the out positions for active_player;
+    // TODO: write function checkForScoring -> check if there are pieces in the out positions for active_player;
     // TODO: If checkForScoring == true -> possible moving to the score box
     // TODO:                       else -> this move is removed from possible moves <- IMPORTANT
     // checkForScoring();
@@ -82,14 +107,22 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     // List of available availableMovesAmount, according to dice and selectedPiece position. '+' for white player, '-' for black player.
     let moves = [];
     let possibleMoves = [];     // Array of booleans, checking if the target position is free, occupied by same team pieces, occupied by 1 opponent team piece or occupied by more opponent pieces.
-    if (allPiecesAtHome()) {
+    let allPiecesAtHome = areAllPiecesAtHome();
+    if (allPiecesAtHome) {
+        let ableToRemoveThisPiece;
         if (die1 === die2) {
-
+            ableToRemoveThisPiece = (activePlayer === 'white')? die1 + selectedPiece.position === 24 : die1 === selectedPiece.position + 1;
         } else {
             let isAbleToRemoveWithDie1 = (activePlayer === 'white')? die1 + selectedPiece.position === 24 : die1 === selectedPiece.position + 1;
             let isAbleToRemoveWithDie2 = (activePlayer === 'white')? die2 + selectedPiece.position === 24 : die2 === selectedPiece.position + 1;
-            if (isAbleToRemoveWithDie1 || isAbleToRemoveWithDie2) {
-                (activePlayer === 'white')? availableMoves.push(24) : availableMoves.push(25);
+            ableToRemoveThisPiece = isAbleToRemoveWithDie1 || isAbleToRemoveWithDie2;
+        }
+
+        if (ableToRemoveThisPiece) {
+            if (activePlayer === 'white'){
+                availableMoves.push(24);
+            } else {
+                availableMoves.push(25);
             }
         }
     }
@@ -156,19 +189,34 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
         }
     }
 
+    if (availableMoves.length === 0 && allPiecesAtHome) {
+        if (isSelectedPieceHighest()) {
+            availableMoves.push((activePlayer === 'white') ? 24 : 25);
+        }
+    }
+
     console.log(availableMoves);
 }
 
-function allPiecesAtHome() {
-    for (let i = 0, n = board.length; i < n; i++) {
-        let position = board[i];
-        for (let y = 0, m = board[i].occupiedBy.length; i < m; i++) {
-            let piece = position.occupiedBy[y];
-            if (piece.inPlay && !piece.inHome()) {
-                return false;
+function isSelectedPieceHighest() {
+    let occupiedPositions = board.filter(position => position.occupiedBy === activePlayer);
+    let highestPosition = (activePlayer === 'white')? occupiedPositions[0].piecesOn[0].position : occupiedPositions[occupiedPositions.length - 1].piecesOn[0].position;
+
+    return selectedPiece.position === highestPosition;
+
+    // let die1BiggerThenHighest = (die1 > highestPosition);
+    // let die2BiggerThenHighest = (die2 > highestPosition);
+}
+
+function areAllPiecesAtHome() {
+    board.filter(position => position.occupiedBy === activePlayer)
+        .forEach(position => function(position) {
+            for (let piece of position.piecesOn) {
+                if (piece.inPlay && !piece.inHome()) {
+                    return false;
+                }
             }
-        }
-    }
+    });
 
     return true;
 }
@@ -176,11 +224,12 @@ function allPiecesAtHome() {
 function CalculatePossibleMovesForPieceOut(selectedPiece) {
 
 }
-function evaluateMove(position) {
+function evaluateMove(position, startPosition) {
     if (position > 23) { // If moving to Score position.
+        if (die1 !== die2) (startPosition + die1 === 24 || startPosition - die1 === -1)? die1 = Number.POSITIVE_INFINITY : die2 = Number.POSITIVE_INFINITY;
         return 1;
     }
-    let moveDistance = Math.abs(position - selectedPiece.position);
+    let moveDistance = Math.abs(position - startPosition);
     if (die1 === die2) {
         if (moveDistance > die1 * 3) {
             return 4;
@@ -211,24 +260,25 @@ function dropPiece(x, y) {
         let dropY = y;
 
         if (
-            (position <= 11 && board[position].x.start <= dropX
-            && board[position].x.end >= dropX
-            && board[position].y.start <= dropY
-            && board[position].y.end >= dropY)
+            (position <= 11
+                && board[position].x.start <= dropX
+                && board[position].x.end >= dropX
+                && board[position].y.start <= dropY
+                && board[position].y.end >= dropY)
             ||
-            (position > 11 && board[position].x.start <= dropX
-            && board[position].x.end >= dropX
-            && board[position].y.start >= dropY
-            && board[position].y.end <= dropY)
+            (position > 11
+                && board[position].x.start <= dropX
+                && board[position].x.end >= dropX
+                && board[position].y.start >= dropY
+                && board[position].y.end <= dropY)
         ) {
-
-            checkForOpponentOnPosition(position);
+            let startPosition = selectedPiece.position;
             let piece;
-            if (position > 23) {
+            if (position > 23) {  //TODO: Debug selectedPiece position.
                 let xSide = 40;
                 let ySide = 10;
                 let xPiece = board[position].x.start;
-                let yPiece = board[position].y.start + (board[position].piecesOn.length * ySide) + 1;
+                let yPiece = (board[position].y.start - ySide) - (board[position].piecesOn.length * ySide) - 1;
 
                 piece = selectedPiece;
                 piece.x.start = xPiece;
@@ -236,13 +286,14 @@ function dropPiece(x, y) {
                 piece.side = {x: xSide, y: ySide};
                 piece.position = position;
             } else {
+                checkForOpponentOnPosition(position);
                 piece = pieceBuilder(selectedPiece.color, position);
             }
             piece.id = selectedPiece.id;
             board[position].piecesOn.push(piece);
             if (board[position].occupiedBy) board[position].occupiedBy = activePlayer;
 
-            return evaluateMove(position);
+            return evaluateMove(position, startPosition);
         }
     }
     let originalPosition = selectedPiece.position;
@@ -265,49 +316,89 @@ function checkForOpponentOnPosition(position) {
         pieceOut.y.start = out.get(color).y.start;
 
         out.get(color).piecesOn.push(pieceOut);
-        
     }
 } 
 
 function setupGame() {
+    //
+    initPiece('white', 23);
+    initPiece('white', 23);
+    //
+    // initPiece('white', 22);
+    // initPiece('white', 22);
+    // initPiece('white', 22);
+    // initPiece('white', 22);
+    // initPiece('white', 21);
+    //
+    // initPiece('white', 21);
+    // initPiece('white', 20);
+    // initPiece('white', 20);
+    //
+    // initPiece('white', 19);
+    // initPiece('white', 19);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    //
+    // initPiece('black', 0);
+    // initPiece('black', 0);
+    //
+    // initPiece('black', 1);
+    // initPiece('black', 1);
+    // initPiece('black', 1);
+    // initPiece('black', 1);
+    // initPiece('black', 2);
+    //
+    // initPiece('black', 2);
+    // initPiece('black', 3);
+    // initPiece('black', 3);
+    //
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    //
 
-    initPiece('white', 0);
-    initPiece('white', 0);
 
-    initPiece('white', 11);
-    initPiece('white', 11);
-    initPiece('white', 11);
-    initPiece('white', 11);
-    initPiece('white', 11);
-
-    initPiece('white', 16);
-    initPiece('white', 16);
-    initPiece('white', 16);
-
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-
-    initPiece('black', 23);
-    initPiece('black', 23);
-
-    initPiece('black', 12);
-    initPiece('black', 12);
-    initPiece('black', 12);
-    initPiece('black', 12);
-    initPiece('black', 12);
-
-    initPiece('black', 7);
-    initPiece('black', 7);
-    initPiece('black', 7);
-
-    initPiece('black', 5);
-    initPiece('black', 5);
-    initPiece('black', 5);
-    initPiece('black', 5);
-    initPiece('black', 5);
+    // Real game setup.
+    // initPiece('white', 0);
+    // initPiece('white', 0);
+    //
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    //
+    // initPiece('white', 16);
+    // initPiece('white', 16);
+    // initPiece('white', 16);
+    //
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    //
+    // initPiece('black', 23);
+    // initPiece('black', 23);
+    //
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    //
+    // initPiece('black', 7);
+    // initPiece('black', 7);
+    // initPiece('black', 7);
+    //
+    // initPiece('black', 5);
+    // initPiece('black', 5);
+    // initPiece('black', 5);
+    // initPiece('black', 5);
+    // initPiece('black', 5);
 
     renderStaticPieces();
 }
@@ -345,7 +436,7 @@ function pieceBuilder(color, position) {
         };
     let inHome = function() {
         let position = this.position;
-        return (position >= 18 && position <= 23);
+        return (activePlayer === 'white')? (position >= 18 && position <= 23) : (position >= 0 && position <= 5);
     };
 
     let piece = {
@@ -381,26 +472,13 @@ function renderBoard() {
 function renderStaticPieces() {
     for (let position of board) {
         for (let piece of position.piecesOn) {
-            let image = piece.img,
-                x = piece.x.start,
-                y = piece.y.start,
-                side = piece.side;
-
-            ctx.drawImage(image, x, y, side, side);
-        }
-    }
-}
-
-function renderOutPieces() {
-    if (out.get('white').piecesOn.length > 0){
-        for (let piece of out.get('white').piecesOn){
             if (piece.position > 23) { //TODO: Confirm if working...
-                let x = piece.x.start;
-                let y = piece.y.start;
                 let xSide = piece.side.x;
                 let ySide = piece.side.y;
+                let x = piece.x.start;
+                let y = piece.y.start;
 
-                ctx.fillStyle = 'white';
+                ctx.fillStyle = piece.color;
                 ctx.fillRect(x, y, xSide, ySide);
             } else {
                 let image = piece.img,
@@ -410,6 +488,35 @@ function renderOutPieces() {
 
                 ctx.drawImage(image, x, y, side, side);
             }
+        }
+    }
+}
+
+function drawEndGame() {
+    ctx.fillStyle = 'black';
+    ctx.globalAlpha = 0.4;
+    ctx.fillRect(canvasOffsetLeft, CANVAS_OFFSET_TOP, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    let colorCubeWidth = CANVAS_WIDTH / 2,
+        colorCubeHeight = CANVAS_HEIGHT / 2,
+        colorCubeX = colorCubeWidth / 2,
+        colorCubeY = colorCubeHeight / 2;
+
+    ctx.fillStyle = winner;
+    ctx.fillRect(colorCubeX, colorCubeY, colorCubeWidth, colorCubeHeight);
+
+
+}
+
+function renderOutPieces() {
+    if (out.get('white').piecesOn.length > 0){
+        for (let piece of out.get('white').piecesOn){
+            let image = piece.img,
+                x = piece.x.start,
+                y = piece.y.start,
+                side = piece.side;
+
+            ctx.drawImage(image, x, y, side, side);
         }
     }
     if (out.get('black').piecesOn.length > 0){
@@ -453,12 +560,14 @@ function rollDiceForTurn(callback) {
     drawDice(whiteDiceImage, blackDiceImage, [200, 275], [570, 275]);
     
     let firstPlayer = '';
-    if (whiteDice > blackDice) {
-        firstPlayer = 'white';
-    }
-    else {
-        firstPlayer = 'black';
-    }
+    // if (whiteDice > blackDice) {
+    //     firstPlayer = 'white';
+    // }
+    // else {
+    //     firstPlayer = 'black';
+    // }
+
+    firstPlayer = 'white';
 
     setTimeout(function() {
         activePlayer = firstPlayer;

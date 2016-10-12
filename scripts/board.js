@@ -13,6 +13,7 @@ let canvas,
     DIE_COORDINATES_1 = [5, 60],
     DIE_COORDINATES_2 = [5, 120];
 
+let winner;
 let pieceCounter = 0;
 let selectedPiece = false;
 let die1, die2;
