@@ -13,15 +13,16 @@ let canvas,
     DIE_COORDINATES_1 = [5, 60],
     DIE_COORDINATES_2 = [5, 120];
 
+let winner;
 let pieceCounter = 0;
 let selectedPiece = false;
 let die1, die2;
 let dieImage1, dieImage2;
-let possiblePositionsToDropPiece;
+let availableMoves;
 let boardPicture = document.getElementById('board');
 let holdingPiece = false;
 let cursorX, cursorY;
-let availableMoves;
+let availableMovesAmount;
 let spentMoves;
 
 let whiteDice = 0;
@@ -53,7 +54,11 @@ let board = [
     {x: {start: 560, end: 560 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 616, end: 616 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 672, end: 672 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
-    {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'}
+    {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
+
+    // Positions for score pieces
+    {x: {start: 790, end: 830}, y: {start: 560, end: 381}, piecesOn: []},
+    {x: {start: 790, end: 830}, y: {start: 219, end: 40}, piecesOn: []}
 ];
 
 let out = new Map();
