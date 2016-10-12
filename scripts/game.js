@@ -8,10 +8,10 @@ function game() {
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
-        let turnCompleted = dropPiece(x, y);
-        selectedPiece = false;
-        spentMoves += turnCompleted;
-        if (spentMoves === availableMoves) endTurn();
+        let moves = dropPiece(x, y);
+        selectedPiece = false; // cleanup by moving in dropPiece and renaming,
+        availableMoves -= moves;
+        if (availableMoves <= 0) endTurn();
         render();
     } else {
         selectedPiece = selectingPiece(x, y);
@@ -21,7 +21,6 @@ function update(x, y) {  // Invoked from click listener.
             requestAnimationFrame(animationLoop);
         }
     }
-    
 }
 
 function animationLoop() {
