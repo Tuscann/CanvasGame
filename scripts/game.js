@@ -24,7 +24,14 @@ function update(x, y) {  // Invoked from click listener.
         }
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
-            calculatePossibleMoves(selectedPiece);
+            
+            if (selectedPiece.inPlay){
+                calculatePossibleMoves(selectedPiece);
+            }
+            else {
+                CalculatePossibleMovesForPieceOut(selectedPiece);
+            }
+            
             requestAnimationFrame(animationLoop);
         }
     }    

@@ -113,7 +113,7 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
     console.log(possiblePositionsToDropPiece);
 }
 
-function checkForScoring() {
+function CalculatePossibleMovesForPieceOut(selectedPiece) {
 
 }
 
