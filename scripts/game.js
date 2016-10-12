@@ -11,7 +11,9 @@ function update(x, y) {  // Invoked from click listener.
         let turnCompleted = dropPiece(x, y);
         selectedPiece = false;
         spentMoves += turnCompleted;
+
         if (spentMoves === availableMoves) endTurn();
+
         render();
     } else {
         selectedPiece = selectingPiece(x, y);
@@ -20,8 +22,7 @@ function update(x, y) {  // Invoked from click listener.
             calculatePossibleMoves(selectedPiece);
             requestAnimationFrame(animationLoop);
         }
-    }
-    
+    }    
 }
 
 function animationLoop() {
@@ -40,9 +41,9 @@ function updateSelectedPiece() {
 function render() {
     renderBoard();
     renderStaticPieces();
+    renderOutPieces();
     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
     if (selectedPiece) renderSelectedPiece();
-    // renderDice();
 }
 
 $(function() {game();});
