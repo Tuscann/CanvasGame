@@ -14,7 +14,12 @@ function update(x, y) {  // Invoked from click listener.
         if (availableMoves <= 0) endTurn();
         render();
     } else {
-        selectedPiece = selectingPiece(x, y);
+        if (out.get(activePlayer).piecesOn.length > 0){
+            selectedPiece = selectingOutPiece(x, y);
+        }
+        else {
+            selectedPiece = selectingPiece(x, y);
+        }
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
             calculatePossibleMoves(selectedPiece);
@@ -39,9 +44,9 @@ function updateSelectedPiece() {
 function render() {
     renderBoard();
     renderStaticPieces();
+    renderOutPieces();
     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
     if (selectedPiece) renderSelectedPiece();
-    // renderDice();
 }
 
 $(function() {game();});

@@ -55,3 +55,7 @@ let board = [
     {x: {start: 672, end: 672 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
     {x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'}
 ];
+
+let out = new Map();
+out.set('white', {x: {start: 62 - POSITION_WIDTH, end: 62}, y: {start: 515, end: 550}, piecesOn: []});
+out.set('black', {x: {start: 62 - POSITION_WIDTH, end: 62}, y: {start: 300, end: 350}, piecesOn: []});
