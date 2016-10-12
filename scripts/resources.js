@@ -38,7 +38,7 @@ function selectingPiece(x, y) {
 function selectingOutPiece(x, y) {
 
     let piece = out.get(activePlayer).piecesOn.pop();
-    if (x > piece.x.start
+    if (x > piece.x.start 
         && x < piece.x.end()
         && y > piece.y.start
         && y < piece.y.end()){
@@ -133,8 +133,22 @@ function calculatePossibleMoves(selectedPiece) { // returns list of areas for in
 }
 
 function CalculatePossibleMovesForPieceOut(selectedPiece) {
+    possiblePositionsToDropPiece = [];
+    let opponent = (selectedPiece.color === 'white')? 'black': 'white';
+
+    let moves = [];
+
+    if (die1 === die2) { // Checks for pair.
+        for (let i = 1; i <= availableMoves; i++) {
+            moves.push((activePlayer === 'white')? die1 - 1 : 24 - die1);
+        }
+    } else { // TODO: Monitor and solve pair issue.1
+        moves.push((activePlayer === 'white')? die1 - 1 : 24 - die1);
+        moves.push((activePlayer === 'white')? die2 - 1 : 24 - die2);
+    }
 
 }
+
 function evaluateMove(position) {
     let moveDistance = Math.abs(position - selectedPiece.position);
     if (die1 === die2) {
@@ -157,9 +171,6 @@ function evaluateMove(position) {
     }
 }
 
-function checkForScoring() {
-
-}
 
 function dropPiece(x, y) {
 
@@ -179,6 +190,8 @@ function dropPiece(x, y) {
             && board[position].y.end <= dropY)
         ) {
 
+            // Check if there is one opponent pull on this position.
+            // If so - opponent pull is taken out.
             checkForOpponentOnPosition(position);
 
             let piece = pieceBuilder(selectedPiece.color, position);
@@ -204,11 +217,11 @@ function checkForOpponentOnPosition(position) {
         let color = activePlayer == 'white' ? 'black' : 'white';
 
         pieceOut.inPlay = false;
+        pieceOut.position = 'out';
         pieceOut.x.start = out.get(color).x.start;
         pieceOut.y.start = out.get(color).y.start;
 
         out.get(color).piecesOn.push(pieceOut);
-        
     }
 } 
 
