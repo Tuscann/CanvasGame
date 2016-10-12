@@ -173,6 +173,9 @@ function allPiecesAtHome() {
     return true;
 }
 
+function CalculatePossibleMovesForPieceOut(selectedPiece) {
+
+}
 function evaluateMove(position) {
     if (position > 23) { // If moving to Score position.
         return 1;
