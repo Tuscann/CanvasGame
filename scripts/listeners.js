@@ -8,8 +8,8 @@ $(function() {
 
         let whiteName = $('#player-a-form').val();
         let blackName = $('#player-b-form').val();
-        $('#player-a-name').text(whiteName);
-        $('#player-b-name').text(blackName);
+        $('#player-a-name').text((whiteName === '')? 'whitePlayer' : whiteName);
+        $('#player-b-name').text((blackName === '')? 'blackPlayer' : blackName);
 
         $('#form').css('position', 'absolute');
         // let windowWidth = screen.width;
