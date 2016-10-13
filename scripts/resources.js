@@ -62,16 +62,16 @@ function endTurn() {
         endGame();
     } else {
         (activePlayer === 'white')? activePlayer = 'black' : activePlayer = 'white';
-        updateHtml();
+        updateActivePlayerInHtml();
         startTurn();
     }
 }
 
-function updateHtml() {
+function updateActivePlayerInHtml() {
     if (activePlayer === 'white') {
         $('.player-turn').css('top', '80px');
     } else {
-        $('.player-turn').css('top', '270px');
+        $('.player-turn').css('top', '240px');
     }
 }
 
@@ -210,24 +210,13 @@ function calculatePossibleMoves() { // returns list of areas for input collision
 
 function isSelectedPieceHighest() {
     let occupiedPositions = board.filter(position => position.occupiedBy === activePlayer);
-    // if (occupiedPositions.length === 0) return true;  // Takes care of special case for last piece.
     let highestPosition = (activePlayer === 'white')? occupiedPositions[0].index : occupiedPositions[occupiedPositions.length - 1].index;
 
     return selectedPiece.position === highestPosition;
-
-    // let die1BiggerThenHighest = (die1 > highestPosition);
-    // let die2BiggerThenHighest = (die2 > highestPosition);
 }
 
 function areAllPiecesAtHome() {
-    // board.filter(position => position.occupiedBy === activePlayer)
-    //     .forEach(position => function(position) {
-    //         for (let piece of position.piecesOn) {
-    //             if (piece.inPlay && !piece.inHome()) {
-    //                 return false;
-    //             }
-    //         }
-    // });
+
     let minPosition;
     let maxPosition;
     if (activePlayer === 'white') {
@@ -366,6 +355,7 @@ function dropPiece(x, y) {
                 if (position === 24) {
                     yPiece = (board[position].y.start - 15) - (board[position].piecesOn.length * 12) - 1; // Starting down -> going up.
                     img = document.getElementById('white-piece-score');
+                    updateScore(24);
                 } else {
                     yPiece = (board[position].y.start - 10) + (board[position].piecesOn.length * 12) + 1; // Starting top -> going down.
                     img = document.getElementById('black-piece-score');
@@ -388,6 +378,7 @@ function dropPiece(x, y) {
 
             piece.id = selectedPiece.id;
             board[position].piecesOn.push(piece);
+            updateScore();
             if (board[position].occupiedBy) board[position].occupiedBy = activePlayer;
 
             return evaluateMove(position, startPosition);
@@ -400,6 +391,20 @@ function dropPiece(x, y) {
     board[originalPosition].occupiedBy = piece.color;
 
     return 0;
+}
+
+function updateScore() {
+    let domScore;
+    let score;
+    if (activePlayer === 'white') {
+        domScore = $('#player-a-score');
+        score = board[24].piecesOn.length;
+    } else {
+        domScore = $('#player-b-score');
+        score = board[25].piecesOn.length;
+    }
+
+    domScore.text(score);
 }
 
 function dropPieceBackToGame(x, y) {
@@ -463,6 +468,9 @@ function checkForOpponentOnPosition(position) {
 } 
 
 function setupGame() {
+    // initPiece('white', 0);
+    // initPiece('white', 0);
+
 
     //
     // initPiece('white', 23);
@@ -631,7 +639,21 @@ function renderStaticPieces() {
                 ctx.drawImage(image, x, y, side, side);
             }
         }
+        if (position.piecesOn.length > 5 && position.index !== 24 && position.index !== 25) {
+            renderPlus(position);
+        }
     }
+}
+
+function renderPlus(position) {
+    ctx.font = '40px Monospace';
+    ctx.fillStyle = (position.occupiedBy === 'white')? 'black' : 'white';
+    if (position.index < 12) {
+        ctx.fillText('+', position.x.start + 16, position.y.end - 35);
+    } else {
+        ctx.fillText('+', position.x.start + 16, position.y.end + 60);
+    }
+
 }
 
 function drawEndGame() {
@@ -639,14 +661,22 @@ function drawEndGame() {
     ctx.globalAlpha = 0.9;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    let colorCubeWidth = CANVAS_WIDTH / 2,
-        colorCubeHeight = CANVAS_HEIGHT / 2,
-        colorCubeX = colorCubeWidth / 2,
-        colorCubeY = colorCubeHeight / 2;
+    let colorCubeWidth = 500,
+        colorCubeHeight = 200,
+        colorCubeX = (CANVAS_WIDTH - colorCubeWidth) / 2,
+        colorCubeY = (CANVAS_HEIGHT - colorCubeHeight) / 2;
 
     ctx.fillStyle = winner;
     ctx.globalAlpha = 1;
     ctx.fillRect(colorCubeX, colorCubeY, colorCubeWidth, colorCubeHeight);
+
+    ctx.fillStyle = (winner === 'white')? 'black' : 'white';
+    ctx.font = '40px Monospace';
+    ctx.fillText('BACKGAMMON.js:', colorCubeX + 15, colorCubeY + 50);
+    ctx.font = '25px Monospace';
+    ctx.fillText('Winner = function() {', colorCubeX + 15, colorCubeY + 10);
+    ctx.fillText('    return this.color + \'Player\'', colorCubeX + 15, colorCubeY + 140);
+    ctx.fillText('}', colorCubeX + 15, colorCubeY + 180);
 }
 
 function renderOutPieces() {
@@ -659,6 +689,7 @@ function renderOutPieces() {
 
             ctx.drawImage(image, x, y, side, side);
         }
+
     }
     if (out.get('black').piecesOn.length > 0){
         for (let piece of out.get('black').piecesOn){
@@ -682,10 +713,6 @@ function renderSelectedPiece() {
     ctx.drawImage(image, x, y, side, side);
 }
 
-//******************************************************************************
-// Raly - Rolling dice
-//******************************************************************************
-
 function rollDiceForTurn(callback) {
     let[rollWhiteDice, whiteDiceImage] = [0, ''];
     let[rollBlackDice, blackDiceImage] = [0, ''];
@@ -698,8 +725,6 @@ function rollDiceForTurn(callback) {
         [blackDice, blackDiceImage] = roll('black');
     }
 
-    //drawDice(whiteDiceImage, blackDiceImage, [200, 275], [570, 275]);
-
     ctx.drawImage(whiteDiceImage, 200, 275, 70, 70);
     ctx.drawImage(blackDiceImage, 570, 275, 70, 70);
 
@@ -711,7 +736,6 @@ function rollDiceForTurn(callback) {
         firstPlayer = 'black';
     }
 
-    //firstPlayer = 'white';
 
     setTimeout(function() {
         activePlayer = firstPlayer;

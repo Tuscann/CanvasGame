@@ -57,8 +57,8 @@ let board = [
     {index: 23, x: {start: 728, end: 728 + POSITION_WIDTH}, y:{start: 560, end: 560 - POSITION_HEIGHT}, piecesOn: [], occupiedBy: 'none'},
 
     // Positions for score pieces
-    {x: {start: 790, end: 830}, y: {start: 560, end: 381}, piecesOn: []},
-    {x: {start: 790, end: 830}, y: {start: 40, end: 219}, piecesOn: []}
+    {index: 24, x: {start: 790, end: 830}, y: {start: 560, end: 381}, piecesOn: []},
+    {index: 25, x: {start: 790, end: 830}, y: {start: 40, end: 219}, piecesOn: []}
 ];
 
 let out = new Map();

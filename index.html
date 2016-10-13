@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-    <div id="header"><span id="title">Backgammon game</span></div>
+    <div id="header"><span id="title">Backgammon</span></div>
     <div id="content"><!--
      --><div id="left">
             <button id="start-game">Start</button>
+            <button id="end-turn">Emergency End turn</button>
             <div id="form">
 
                 <form>
@@ -20,6 +21,15 @@
                     <input type="text" id="player-b-form" />
                     <button id="show-board" onclick="return false">Next</button>
                 </form>
+                <div id="intro">
+                    Dear players, please at all times keep in mind this is early alpha, due to lack of sufficient testing period. Instructions:
+                    <ul>
+                        <li>Try to prioritise lowest value die first (if move order is not important)</li>
+                        <li>If you see 'plus' sign on yours or your opponent's pieces, then you have more then 5 pieces. На български имате салам :)</li>
+                        <li>If you turn out smarter then our game and you bug it in a way that you are unable to spend your move and thus unable to end turn, then and ONLY THEN resort to the 'emergency end turn' button, on the left on the board. </li>
+                    </ul>
+                    Have fun!!
+                </div>
             </div>
             <div class="players" id="player-a-wrapper">
                 <div class="player-turn" id="player-a-active">Active player:</div>

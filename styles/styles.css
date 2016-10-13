@@ -58,6 +58,26 @@ body {
         float: right;
         width: 102px;
     }
+
+    #left #end-turn {
+        display: none;
+        float:right;
+        margin: 10px 10px 0 -160px;
+        position: relative;
+        font-family: monospace;
+        padding-bottom: 2px;
+        border-radius: 5px;
+        border: 2px solid green;
+        box-shadow: 2px 2px 5px gray;
+        background-color: saddleBrown;
+        color: white;
+    }
+
+    #intro {
+        width: 1200px;
+        margin: 40px 0 0 -425px;
+        text-align: justify;
+    }
 #form {
     width: 350px;
     margin: 100px auto;
@@ -100,6 +120,7 @@ body {
     }
 
 .players {
+    display:none;
     margin: 100px 100px 100px 20px;
     width: 300px;
     float:right;
@@ -136,7 +157,7 @@ body {
 
 #game {
     width:50%;
-    background: brown;
+    background: burlywood;;
     /*transition: all, 0.3s, ease-in-out;*/
 }
 
@@ -148,4 +169,6 @@ body {
 #resources {
     display: none;
 }
+
+
 

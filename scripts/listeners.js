@@ -22,6 +22,7 @@ $(function() {
         setupGame();
         rollDiceForTurn(startTurn); // Callback to delay Rolling of DiceForPlay();
         $('#start-game').hide();
+        $('#end-turn').show();
 
         document.getElementById('left').onmousedown = function () { return false; }; // Disable random selection ouside of canvas.
     });
