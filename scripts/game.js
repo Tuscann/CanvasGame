@@ -28,7 +28,6 @@ function update(x, y) {  // Invoked from click listener.
         else {
             selectedPiece = selectingPiece(x, y);
         }
-        //selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
             console.log(selectedPiece);
@@ -66,8 +65,8 @@ function render() {
     renderBoard();
     renderStaticPieces();
     renderOutPieces();
-    if (selectedPiece && availableMoves.length !== 0) renderSelectedPiece();
-    // if (selectedPiece && (availableMoves.length !== 0 || (die1 != Number.POSITIVE_INFINITY || die2 != Number.POSITIVE_INFINITY))) renderSelectedPiece();
+    //if (selectedPiece && availableMoves.length !== 0) renderSelectedPiece();
+    if (selectedPiece && (availableMoves.length !== 0 || (die1 != Number.POSITIVE_INFINITY || die2 != Number.POSITIVE_INFINITY))) renderSelectedPiece();
     drawDice();
     if (winner) drawEndGame();
 }
