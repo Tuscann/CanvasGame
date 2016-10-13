@@ -1,5 +1,8 @@
 "use strict";
 
+let fadeCounter = 0;
+let animCOunter = 0;
+
 function game() {
     initCanvas();
     renderBoard();
@@ -18,15 +21,17 @@ function update(x, y) {  // Invoked from click listener.
         
         selectedPiece = false; // cleanup by moving in dropPiece and renaming,
         availableMovesAmount -= moves;
-        if (availableMovesAmount <= 0) endTurn();
+        winner = countScore();
+        if (availableMovesAmount <= 0 || winner) endTurn();
         render();
     } else {
-        if (out.get(activePlayer).piecesOn.length > 0){
-            selectedPiece = selectingOutPiece(x, y);
-        }
-        else {
-            selectedPiece = selectingPiece(x, y);
-        }
+        // if (out.get(activePlayer).piecesOn.length > 0){
+        //     selectedPiece = selectingOutPiece(x, y);
+        // }
+        // else {
+        //     selectedPiece = selectingPiece(x, y);
+        // }
+        selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
             console.log(selectedPiece);
@@ -64,8 +69,14 @@ function render() {
     renderBoard();
     renderStaticPieces();
     renderOutPieces();
-    drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
+// <<<<<<< HEAD
+//     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
     if (selectedPiece && availableMoves != 0) renderSelectedPiece();
+// =======
+    drawDice();
+    if (selectedPiece) renderSelectedPiece();
+    if (winner) drawEndGame();
+// >>>>>>> origin/alex
 }
 
 $(function() {game();});
