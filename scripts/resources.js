@@ -58,7 +58,16 @@ function endTurn() {
         endGame();
     } else {
         (activePlayer === 'white')? activePlayer = 'black' : activePlayer = 'white';
+        updateHtml();
         startTurn();
+    }
+}
+
+function updateHtml() {
+    if (activePlayer === 'white') {
+        $('.player-turn').css('top', '80px');
+    } else {
+        $('.player-turn').css('top', '270px');
     }
 }
 
@@ -642,5 +651,9 @@ function drawDice() {
     ctx.drawImage(dieImage2, DIE_COORDINATES_2[0], DIE_COORDINATES_2[1], 60, 60);
 }
 
-
+function centerGame() {
+    let windowWidth = $(window).width();
+    canvasOffsetLeft = (windowWidth - CANVAS_WIDTH) / 2;
+    $('#content').css('margin-left', '-' + (windowWidth - canvasOffsetLeft) + 'px');
+}
 

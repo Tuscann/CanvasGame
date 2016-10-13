@@ -14,29 +14,24 @@
             <div id="form">
 
                 <form>
-                    <span>Player A name:</span>
+                    <span>White player name:</span>
                     <input type="text" id="player-a-form" />
-                    <span>Player B name:</span>
+                    <span>Black player name:</span>
                     <input type="text" id="player-b-form" />
                     <button id="show-board" onclick="return false">Next</button>
                 </form>
             </div>
             <div class="players" id="player-a-wrapper">
-                <div class="player-turn" id="player-a-active" data-hidden="true">Active player: </div>
+                <div class="player-turn" id="player-a-active">Active player:</div>
                 <div id="player-a">
                     <span id="player-a-name">_Player_A_name</span>
                     <span>Score: <span id="player-a-score">_Score_A</span></span>
                 </div>
-            </div>
-            <div class="players" id="player-b-wrapper">
-                <div class="player-turn" id="player-b-active" data-hidden="true">Active player: </div>
                 <div id="player-b">
                     <span id="player-b-name">_Player_B_name</span>
                     <span>Score: <span id="player-b-score">_Score_B</span></span>
                 </div>
             </div>
-
-
         </div><!--
  --><div id="game">
         <canvas id="myCanvas" width="840px" height="600px">

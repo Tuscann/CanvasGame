@@ -2,16 +2,14 @@
 $(function() {
     $('#show-board').click(function() {
 
-        $('#form').hide();
+        // $('#form').hide();
         $('.players').show();
         $('#start-game').show();
 
-
+        $('#form').css('position', 'absolute');
         // let windowWidth = screen.width;
-        let windowWidth = $(window).width();
-        // canvasOffsetLeft = (windowWidth - CANVAS_WIDTH) / 2;
-        canvasOffsetLeft = 200;
-        $('#left').css('width', canvasOffsetLeft + 'px');
+        centerGame();
+        // window.addEventListener('resize', centerGame(), false);
 
     });
 
@@ -19,6 +17,8 @@ $(function() {
         setupGame();
         rollDiceForTurn(startTurn); // Callback to delay Rolling of DiceForPlay();
         $('#start-game').hide();
+
+        document.getElementById('left').onmousedown = function () { return false; }; // Disable random selection ouside of canvas.
     });
 
     document.getElementById('myCanvas').addEventListener('click', getMouseClickLocation, false);
@@ -27,5 +27,6 @@ $(function() {
         cursorY = event.pageY - CANVAS_OFFSET_TOP;
     });
 
-    document.getElementById('left').onmousedown = function () { return false; }; // Disable random selection ouside of canvas.
+    // window.addEventListener('resize', centerGame(), false);
+
 });
