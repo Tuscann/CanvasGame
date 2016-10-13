@@ -1,12 +1,9 @@
 "use strict";
 
-let fadeCounter = 0;
-let animCOunter = 0;
 
 function game() {
     initCanvas();
     renderBoard();
-    // setupGame();
 }
 
 function update(x, y) {  // Invoked from click listener.
@@ -71,7 +68,7 @@ function render() {
     renderOutPieces();
 // <<<<<<< HEAD
 //     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
-    if (selectedPiece && availableMoves != 0) renderSelectedPiece();
+    if (selectedPiece && availableMoves !== 0) renderSelectedPiece();
 // =======
     drawDice();
     //if (selectedPiece) renderSelectedPiece();

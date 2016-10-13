@@ -220,14 +220,30 @@ function isSelectedPieceHighest() {
 }
 
 function areAllPiecesAtHome() {
-    board.filter(position => position.occupiedBy === activePlayer)
-        .forEach(position => function(position) {
-            for (let piece of position.piecesOn) {
-                if (piece.inPlay && !piece.inHome()) {
-                    return false;
-                }
-            }
-    });
+    // board.filter(position => position.occupiedBy === activePlayer)
+    //     .forEach(position => function(position) {
+    //         for (let piece of position.piecesOn) {
+    //             if (piece.inPlay && !piece.inHome()) {
+    //                 return false;
+    //             }
+    //         }
+    // });
+    let minPosition;
+    let maxPosition;
+    if (activePlayer === 'white') {
+        minPosition = 18;
+        maxPosition = 23;
+    } else {
+        minPosition = 0;
+        maxPosition = 5;
+    }
+
+    for (let position of board) {
+        let inHome = position.index >= minPosition && position.index <= maxPosition;
+        if (position.occupiedBy === activePlayer && !inHome) {
+            return false;
+        }
+    }
 
     return true;
 }
@@ -348,10 +364,10 @@ function dropPiece(x, y) {
                 let yPiece;
                 let img;
                 if (position === 24) {
-                    yPiece = (board[position].y.start - 15) - (board[position].piecesOn.length * 14) - 1; // Starting down -> going up.
+                    yPiece = (board[position].y.start - 15) - (board[position].piecesOn.length * 12) - 1; // Starting down -> going up.
                     img = document.getElementById('white-piece-score');
                 } else {
-                    yPiece = (board[position].y.start - 10) + (board[position].piecesOn.length * 14) + 1; // Starting top -> going down.
+                    yPiece = (board[position].y.start - 10) + (board[position].piecesOn.length * 12) + 1; // Starting top -> going down.
                     img = document.getElementById('black-piece-score');
                 }
 
@@ -449,123 +465,82 @@ function checkForOpponentOnPosition(position) {
 function setupGame() {
 
     //
-    // initPiece('white', 23);
-    // initPiece('white', 23);
-    //
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 21);
-    //
-    // initPiece('white', 21);
-    // initPiece('white', 20);
-    // initPiece('white', 20);
-    //
-    // initPiece('white', 19);
-    // initPiece('white', 19);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    //
-    // initPiece('black', 0);
-    // initPiece('black', 0);
-    //
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 2);
-    //
-    // initPiece('black', 2);
-    // initPiece('black', 3);
-    // initPiece('black', 3);
-    //
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
+    initPiece('white', 23);
+    initPiece('white', 23);
 
-    //
-    // initPiece('white', 23);
-    // initPiece('white', 23);
-    //
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 21);
-    // initPiece('white', 22);
-    // initPiece('white', 21);
-    //
-    // initPiece('white', 21);
-    // initPiece('white', 20);
-    // initPiece('white', 20);
-    //
-    // initPiece('white', 19);
-    // initPiece('white', 19);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    //
-    // initPiece('black', 0);
-    // initPiece('black', 0);
-    //
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 2);
-    //
-    // initPiece('black', 2);
-    // initPiece('black', 3);
-    // initPiece('black', 3);
-    //
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    //
+    initPiece('white', 22);
+    initPiece('white', 22);
+    initPiece('white', 22);
+    initPiece('white', 22);
+    initPiece('white', 21);
 
+    initPiece('white', 21);
+    initPiece('white', 20);
+    initPiece('white', 20);
+
+    initPiece('white', 19);
+    initPiece('white', 19);
+    initPiece('white', 18);
+    initPiece('white', 18);
+    initPiece('white', 18);
+
+    initPiece('black', 0);
+    initPiece('black', 0);
+
+    initPiece('black', 1);
+    initPiece('black', 1);
+    initPiece('black', 1);
+    initPiece('black', 1);
+    initPiece('black', 2);
+
+    initPiece('black', 2);
+    initPiece('black', 3);
+    initPiece('black', 3);
+
+    initPiece('black', 4);
+    initPiece('black', 4);
+    initPiece('black', 4);
+    initPiece('black', 4);
+    initPiece('black', 4);
 
     //Real game setup.
-    initPiece('white', 0);
-    initPiece('white', 0);
-
-    initPiece('white', 11);
-    initPiece('white', 11);
-    initPiece('white', 11);
-    initPiece('white', 11);
-    initPiece('white', 11);
-
-    initPiece('white', 16);
-    initPiece('white', 16);
-    initPiece('white', 16);
-
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-
-    initPiece('black', 23);
-    initPiece('black', 23);
-
-    initPiece('black', 12);
-    initPiece('black', 12);
-    initPiece('black', 12);
-    initPiece('black', 12);
-    initPiece('black', 12);
-
-    initPiece('black', 7);
-    initPiece('black', 7);
-    initPiece('black', 7);
-
-    initPiece('black', 5);
-    initPiece('black', 5);
-    initPiece('black', 5);
-    initPiece('black', 5);
-    initPiece('black', 5);
+    // initPiece('white', 0);
+    // initPiece('white', 0);
+    //
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    // initPiece('white', 11);
+    //
+    // initPiece('white', 16);
+    // initPiece('white', 16);
+    // initPiece('white', 16);
+    //
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    //
+    // initPiece('black', 23);
+    // initPiece('black', 23);
+    //
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    // initPiece('black', 12);
+    //
+    // initPiece('black', 7);
+    // initPiece('black', 7);
+    // initPiece('black', 7);
+    //
+    // initPiece('black', 5);
+    // initPiece('black', 5);
+    // initPiece('black', 5);
+    // initPiece('black', 5);
+    // initPiece('black', 5);
 
     renderStaticPieces();
 }
