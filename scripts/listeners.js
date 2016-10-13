@@ -6,6 +6,11 @@ $(function() {
         $('.players').show();
         $('#start-game').show();
 
+        let whiteName = $('#player-a-form').val();
+        let blackName = $('#player-b-form').val();
+        $('#player-a-name').text(whiteName);
+        $('#player-b-name').text(blackName);
+
         $('#form').css('position', 'absolute');
         // let windowWidth = screen.width;
         centerGame();

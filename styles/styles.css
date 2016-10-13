@@ -111,6 +111,10 @@ body {
 #player-a {
     margin-bottom: 100px;
     margin-top: 20px;
+    color: white;
+}
+#player-b {
+    color: black;
 }
 
 .player-turn, #player-a, #player-b {
@@ -122,6 +126,7 @@ body {
     position: absolute;
     top: 80px;
     transition: all, 0.3s, ease-in-out;
+    color:green;
 }
 
 #player-a > span,
