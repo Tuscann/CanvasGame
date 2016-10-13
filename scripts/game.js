@@ -28,7 +28,6 @@ function update(x, y) {  // Invoked from click listener.
         else {
             selectedPiece = selectingPiece(x, y);
         }
-        //selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
             console.log(selectedPiece);
