@@ -659,7 +659,7 @@ function renderStaticPieces() {
     }
 }
 
-function drawEndGame(counter) {
+function drawEndGame() {
     ctx.fillStyle = 'gray';
     ctx.globalAlpha = 0.9;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
