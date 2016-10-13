@@ -22,11 +22,6 @@ function selectingPiece(x, y) {
                 selectedPiece.y.start = cursorY;
                 selectedPiece.side = 60;
 
-                // Added check if this was last piece on that position.
-                // If so - occupiedBy is set on 'none'
-                if (position.piecesOn.length == 0){
-                    position.occupiedBy = 'none';
-                }
                 return selectedPiece;
             }
         }
@@ -57,13 +52,15 @@ function selectingOutPiece(x, y) {
 function startTurn() {
     rollDiceForPlay();
     render();
-    drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
+    // drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
 }
 function endTurn() {
-    winner = countScore();
-    if (winner) endGame();
-    (activePlayer === 'white')? activePlayer = 'black' : activePlayer = 'white';
-    startTurn();
+    if (winner) {
+        endGame();
+    } else {
+        (activePlayer === 'white')? activePlayer = 'black' : activePlayer = 'white';
+        startTurn();
+    }
 }
 
 function countScore() {
@@ -78,7 +75,6 @@ function countScore() {
 
 function endGame() {
     removeListeners();
-    drawEndGame();
 }
 
 function removeListeners() {
@@ -90,7 +86,7 @@ function removeListeners() {
     }, false);
 }
 
-function calculatePossibleMoves() { // returns list of areas for input collision. TODO: remember to clear list on 'piece.isSelected' listener, when piece is put down.
+function calculatePossibleMoves() { // returns list of areas for input collision.
     // _dev - assignment of dices for tests.
     // [die1, die2] = [2, 4];
 
@@ -189,7 +185,8 @@ function calculatePossibleMoves() { // returns list of areas for input collision
         }
     }
 
-    if (availableMoves.length === 0 && allPiecesAtHome) {
+    let noValidMoves = availableMoves.length === 0;
+    if (noValidMoves && allPiecesAtHome) {
         if (isSelectedPieceHighest()) {
             availableMoves.push((activePlayer === 'white') ? 24 : 25);
         }
@@ -200,7 +197,8 @@ function calculatePossibleMoves() { // returns list of areas for input collision
 
 function isSelectedPieceHighest() {
     let occupiedPositions = board.filter(position => position.occupiedBy === activePlayer);
-    let highestPosition = (activePlayer === 'white')? occupiedPositions[0].piecesOn[0].position : occupiedPositions[occupiedPositions.length - 1].piecesOn[0].position;
+    // if (occupiedPositions.length === 0) return true;  // Takes care of special case for last piece.
+    let highestPosition = (activePlayer === 'white')? occupiedPositions[0].index : occupiedPositions[occupiedPositions.length - 1].index;
 
     return selectedPiece.position === highestPosition;
 
@@ -260,7 +258,7 @@ function dropPiece(x, y) {
         let dropY = y;
 
         if (
-            (position <= 11
+            ((position <= 11 || position === 25)
                 && board[position].x.start <= dropX
                 && board[position].x.end >= dropX
                 && board[position].y.start <= dropY
@@ -274,20 +272,32 @@ function dropPiece(x, y) {
         ) {
             let startPosition = selectedPiece.position;
             let piece;
-            if (position > 23) {  //TODO: Debug selectedPiece position.
+            if (position > 23) {
                 let xSide = 40;
-                let ySide = 10;
+                let ySide = 25;
                 let xPiece = board[position].x.start;
-                let yPiece = (board[position].y.start - ySide) - (board[position].piecesOn.length * ySide) - 1;
+                let yPiece;
+                let img;
+                if (position === 24) {
+                    yPiece = (board[position].y.start - 15) - (board[position].piecesOn.length * 14) - 1; // Starting down -> going up.
+                    img = document.getElementById('white-piece-score');
+                } else {
+                    yPiece = (board[position].y.start - 10) + (board[position].piecesOn.length * 14) + 1; // Starting top -> going down.
+                    img = document.getElementById('black-piece-score');
+                }
 
                 piece = selectedPiece;
                 piece.x.start = xPiece;
                 piece.y.start = yPiece;
                 piece.side = {x: xSide, y: ySide};
+                piece.img = img;
                 piece.position = position;
             } else {
                 checkForOpponentOnPosition(position);
                 piece = pieceBuilder(selectedPiece.color, position);
+            }
+            if (board[startPosition].piecesOn.length == 0){
+                board[startPosition].occupiedBy = 'none';
             }
             piece.id = selectedPiece.id;
             board[position].piecesOn.push(piece);
@@ -320,44 +330,44 @@ function checkForOpponentOnPosition(position) {
 } 
 
 function setupGame() {
-    //
+
     initPiece('white', 23);
     initPiece('white', 23);
-    //
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 22);
-    // initPiece('white', 21);
-    //
-    // initPiece('white', 21);
-    // initPiece('white', 20);
-    // initPiece('white', 20);
-    //
-    // initPiece('white', 19);
-    // initPiece('white', 19);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    //
-    // initPiece('black', 0);
-    // initPiece('black', 0);
-    //
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 1);
-    // initPiece('black', 2);
-    //
-    // initPiece('black', 2);
-    // initPiece('black', 3);
-    // initPiece('black', 3);
-    //
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
-    // initPiece('black', 4);
+
+    initPiece('white', 22);
+    initPiece('white', 22);
+    initPiece('white', 21);
+    initPiece('white', 22);
+    initPiece('white', 21);
+
+    initPiece('white', 21);
+    initPiece('white', 20);
+    initPiece('white', 20);
+
+    initPiece('white', 19);
+    initPiece('white', 19);
+    initPiece('white', 18);
+    initPiece('white', 18);
+    initPiece('white', 18);
+
+    initPiece('black', 0);
+    initPiece('black', 0);
+
+    initPiece('black', 1);
+    initPiece('black', 1);
+    initPiece('black', 1);
+    initPiece('black', 1);
+    initPiece('black', 2);
+
+    initPiece('black', 2);
+    initPiece('black', 3);
+    initPiece('black', 3);
+
+    initPiece('black', 4);
+    initPiece('black', 4);
+    initPiece('black', 4);
+    initPiece('black', 4);
+    initPiece('black', 4);
     //
 
 
@@ -472,14 +482,14 @@ function renderBoard() {
 function renderStaticPieces() {
     for (let position of board) {
         for (let piece of position.piecesOn) {
-            if (piece.position > 23) { //TODO: Confirm if working...
+            if (piece.position > 23) {
+                let image = piece.img;
                 let xSide = piece.side.x;
                 let ySide = piece.side.y;
                 let x = piece.x.start;
                 let y = piece.y.start;
 
-                ctx.fillStyle = piece.color;
-                ctx.fillRect(x, y, xSide, ySide);
+                ctx.drawImage(image, x, y, xSide, ySide);
             } else {
                 let image = piece.img,
                     x = piece.x.start,
@@ -492,10 +502,10 @@ function renderStaticPieces() {
     }
 }
 
-function drawEndGame() {
-    ctx.fillStyle = 'black';
-    ctx.globalAlpha = 0.4;
-    ctx.fillRect(canvasOffsetLeft, CANVAS_OFFSET_TOP, CANVAS_WIDTH, CANVAS_HEIGHT);
+function drawEndGame(counter) {
+    ctx.fillStyle = 'gray';
+    ctx.globalAlpha = 0.9;
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     let colorCubeWidth = CANVAS_WIDTH / 2,
         colorCubeHeight = CANVAS_HEIGHT / 2,
@@ -503,9 +513,8 @@ function drawEndGame() {
         colorCubeY = colorCubeHeight / 2;
 
     ctx.fillStyle = winner;
+    ctx.globalAlpha = 1;
     ctx.fillRect(colorCubeX, colorCubeY, colorCubeWidth, colorCubeHeight);
-
-
 }
 
 function renderOutPieces() {
@@ -557,25 +566,21 @@ function rollDiceForTurn(callback) {
         [blackDice, blackDiceImage] = roll('black');
     }
 
-    drawDice(whiteDiceImage, blackDiceImage, [200, 275], [570, 275]);
-    
-    let firstPlayer = '';
-    // if (whiteDice > blackDice) {
-    //     firstPlayer = 'white';
-    // }
-    // else {
-    //     firstPlayer = 'black';
-    // }
+    ctx.drawImage(whiteDiceImage, 200, 275, 70, 70);
+    ctx.drawImage(blackDiceImage, 570, 275, 70, 70);
 
-    firstPlayer = 'white';
+    let firstPlayer = '';
+    if (whiteDice > blackDice) {
+        firstPlayer = 'white';
+    }
+    else {
+        firstPlayer = 'black';
+    }
 
     setTimeout(function() {
         activePlayer = firstPlayer;
         callback();
     }, 3000);
-
-    // activePlayer = firstPlayer;
-    // return firstPlayer;
 }
 
 function rollDiceForPlay() {
@@ -621,9 +626,9 @@ function roll(color) {
     return [dice, diceImage];
 }
 
-function drawDice(dieImage1, dieImage2, diePosition1, diePosition2) {
-    ctx.drawImage(dieImage1, diePosition1[0], diePosition1[1], 70, 70);
-    ctx.drawImage(dieImage2, diePosition2[0], diePosition2[1], 70, 70);
+function drawDice() {
+    ctx.drawImage(dieImage1, DIE_COORDINATES_1[0], DIE_COORDINATES_1[1], 60, 60);
+    ctx.drawImage(dieImage2, DIE_COORDINATES_2[0], DIE_COORDINATES_2[1], 60, 60);
 }
 
 
