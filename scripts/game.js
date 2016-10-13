@@ -66,14 +66,10 @@ function render() {
     renderBoard();
     renderStaticPieces();
     renderOutPieces();
-// <<<<<<< HEAD
-//     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
-    if (selectedPiece && availableMoves !== 0) renderSelectedPiece();
-// =======
+    if (selectedPiece && availableMoves.length !== 0) renderSelectedPiece();
+    // if (selectedPiece && (availableMoves.length !== 0 || (die1 != Number.POSITIVE_INFINITY || die2 != Number.POSITIVE_INFINITY))) renderSelectedPiece();
     drawDice();
-    //if (selectedPiece) renderSelectedPiece();
     if (winner) drawEndGame();
-// >>>>>>> origin/alex
 }
 
 $(function() {game();});
