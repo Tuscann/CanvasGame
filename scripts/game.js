@@ -25,13 +25,13 @@ function update(x, y) {  // Invoked from click listener.
         if (availableMovesAmount <= 0 || winner) endTurn();
         render();
     } else {
-        // if (out.get(activePlayer).piecesOn.length > 0){
-        //     selectedPiece = selectingOutPiece(x, y);
-        // }
-        // else {
-        //     selectedPiece = selectingPiece(x, y);
-        // }
-        selectedPiece = selectingPiece(x, y);
+        if (out.get(activePlayer).piecesOn.length > 0){
+            selectedPiece = selectingOutPiece(x, y);
+        }
+        else {
+            selectedPiece = selectingPiece(x, y);
+        }
+        //selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
             console.log(selectedPiece);
@@ -74,7 +74,7 @@ function render() {
     if (selectedPiece && availableMoves != 0) renderSelectedPiece();
 // =======
     drawDice();
-    if (selectedPiece) renderSelectedPiece();
+    //if (selectedPiece) renderSelectedPiece();
     if (winner) drawEndGame();
 // >>>>>>> origin/alex
 }
