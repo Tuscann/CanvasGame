@@ -472,7 +472,7 @@ function setupGame() {
     // initPiece('white', 0);
 
 
-    //
+    // Score testing
     // initPiece('white', 23);
     // initPiece('white', 23);
     //

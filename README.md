@@ -1,8 +1,11 @@
-# CanvasGame
+<img src="https://raw.githubusercontent.com/Tuscann/CanvasGame/master/preview.bmp">
 
-Idei kakvo igra iskate da pravim
+Basic Backgammon game with Html5 canvas + Javascrpit for <b>JS Fundamentals - September 2016<b> in Softuni.
+Contributors:<br>
+1.https://github.com/achobanov - Alex Chobanov<br>
+2.https://github.com/ralitsaDmt - Ralitsa Dimitrova<br>
+3.https://github.com/Tuscann - Zhivko Nedyalkov<br>
+4.https://github.com/Merkanto - Miroslav Zhelezchev<br>
 
 
-https://youtu.be/qwGoOosAu6E?t=4h38m22s
 
-primer praven na visual stidio sas html5 javacript i canvas nie trqbva da napravim sashtoto??
