@@ -465,82 +465,82 @@ function checkForOpponentOnPosition(position) {
 function setupGame() {
 
     //
-    initPiece('white', 23);
-    initPiece('white', 23);
-
-    initPiece('white', 22);
-    initPiece('white', 22);
-    initPiece('white', 22);
-    initPiece('white', 22);
-    initPiece('white', 21);
-
-    initPiece('white', 21);
-    initPiece('white', 20);
-    initPiece('white', 20);
-
-    initPiece('white', 19);
-    initPiece('white', 19);
-    initPiece('white', 18);
-    initPiece('white', 18);
-    initPiece('white', 18);
-
-    initPiece('black', 0);
-    initPiece('black', 0);
-
-    initPiece('black', 1);
-    initPiece('black', 1);
-    initPiece('black', 1);
-    initPiece('black', 1);
-    initPiece('black', 2);
-
-    initPiece('black', 2);
-    initPiece('black', 3);
-    initPiece('black', 3);
-
-    initPiece('black', 4);
-    initPiece('black', 4);
-    initPiece('black', 4);
-    initPiece('black', 4);
-    initPiece('black', 4);
+    // initPiece('white', 23);
+    // initPiece('white', 23);
+    //
+    // initPiece('white', 22);
+    // initPiece('white', 22);
+    // initPiece('white', 22);
+    // initPiece('white', 22);
+    // initPiece('white', 21);
+    //
+    // initPiece('white', 21);
+    // initPiece('white', 20);
+    // initPiece('white', 20);
+    //
+    // initPiece('white', 19);
+    // initPiece('white', 19);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    // initPiece('white', 18);
+    //
+    // initPiece('black', 0);
+    // initPiece('black', 0);
+    //
+    // initPiece('black', 1);
+    // initPiece('black', 1);
+    // initPiece('black', 1);
+    // initPiece('black', 1);
+    // initPiece('black', 2);
+    //
+    // initPiece('black', 2);
+    // initPiece('black', 3);
+    // initPiece('black', 3);
+    //
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    // initPiece('black', 4);
+    // initPiece('black', 4);
 
     //Real game setup.
-    // initPiece('white', 0);
-    // initPiece('white', 0);
-    //
-    // initPiece('white', 11);
-    // initPiece('white', 11);
-    // initPiece('white', 11);
-    // initPiece('white', 11);
-    // initPiece('white', 11);
-    //
-    // initPiece('white', 16);
-    // initPiece('white', 16);
-    // initPiece('white', 16);
-    //
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    // initPiece('white', 18);
-    //
-    // initPiece('black', 23);
-    // initPiece('black', 23);
-    //
-    // initPiece('black', 12);
-    // initPiece('black', 12);
-    // initPiece('black', 12);
-    // initPiece('black', 12);
-    // initPiece('black', 12);
-    //
-    // initPiece('black', 7);
-    // initPiece('black', 7);
-    // initPiece('black', 7);
-    //
-    // initPiece('black', 5);
-    // initPiece('black', 5);
-    // initPiece('black', 5);
-    // initPiece('black', 5);
-    // initPiece('black', 5);
+    initPiece('white', 0);
+    initPiece('white', 0);
+
+    initPiece('white', 11);
+    initPiece('white', 11);
+    initPiece('white', 11);
+    initPiece('white', 11);
+    initPiece('white', 11);
+
+    initPiece('white', 16);
+    initPiece('white', 16);
+    initPiece('white', 16);
+
+    initPiece('white', 18);
+    initPiece('white', 18);
+    initPiece('white', 18);
+    initPiece('white', 18);
+    initPiece('white', 18);
+
+    initPiece('black', 23);
+    initPiece('black', 23);
+
+    initPiece('black', 12);
+    initPiece('black', 12);
+    initPiece('black', 12);
+    initPiece('black', 12);
+    initPiece('black', 12);
+
+    initPiece('black', 7);
+    initPiece('black', 7);
+    initPiece('black', 7);
+
+    initPiece('black', 5);
+    initPiece('black', 5);
+    initPiece('black', 5);
+    initPiece('black', 5);
+    initPiece('black', 5);
 
     renderStaticPieces();
 }
