@@ -33,7 +33,7 @@ function selectingPiece(x, y) {
 function selectingOutPiece(x, y) {
 
     let piece = out.get(activePlayer).piecesOn.pop();
-    if (x > piece.x.start
+    if (x > piece.x.start 
         && x < piece.x.end()
         && y > piece.y.start
         && y < piece.y.end()){
@@ -52,7 +52,6 @@ function selectingOutPiece(x, y) {
 function startTurn() {
     rollDiceForPlay();
     render();
-    // drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
 }
 function endTurn() {
     if (winner) {
@@ -220,14 +219,28 @@ function areAllPiecesAtHome() {
 }
 
 function CalculatePossibleMovesForPieceOut(selectedPiece) {
+    let possiblePositionsToDropPiece = [];
+    let opponent = (selectedPiece.color === 'white')? 'black': 'white';
 
+    let moves = [];
+
+    if (die1 === die2) { // Checks for pair.
+        for (let i = 1; i <= availableMoves; i++) {
+            moves.push((activePlayer === 'white')? die1 - 1 : 24 - die1);
+        }
+    } else { // TODO: Monitor and solve pair issue.1
+        moves.push((activePlayer === 'white')? die1 - 1 : 24 - die1);
+        moves.push((activePlayer === 'white')? die2 - 1 : 24 - die2);
+    }
 }
+
 function evaluateMove(position, startPosition) {
     if (position > 23) { // If moving to Score position.
         if (die1 !== die2) (startPosition + die1 === 24 || startPosition - die1 === -1)? die1 = Number.POSITIVE_INFINITY : die2 = Number.POSITIVE_INFINITY;
         return 1;
     }
     let moveDistance = Math.abs(position - startPosition);
+
     if (die1 === die2) {
         if (moveDistance > die1 * 3) {
             return 4;
@@ -248,9 +261,6 @@ function evaluateMove(position, startPosition) {
     }
 }
 
-// function checkForScoring() {
-//
-// }
 
 function dropPiece(x, y) {
     for (let position of availableMoves) {
@@ -322,6 +332,7 @@ function checkForOpponentOnPosition(position) {
         let color = activePlayer == 'white' ? 'black' : 'white';
 
         pieceOut.inPlay = false;
+        pieceOut.position = 'out';
         pieceOut.x.start = out.get(color).x.start;
         pieceOut.y.start = out.get(color).y.start;
 
