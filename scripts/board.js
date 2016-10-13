@@ -62,5 +62,5 @@ let board = [
 ];
 
 let out = new Map();
-out.set('white', {x: {start: 62 - POSITION_WIDTH, end: 62}, y: {start: 515, end: 550}, piecesOn: []});
-out.set('black', {x: {start: 62 - POSITION_WIDTH, end: 62}, y: {start: 300, end: 350}, piecesOn: []});
+out.set('white', {x: {start: 62 - POSITION_WIDTH, end: 62}, y: {start: 300, end: 350}, piecesOn: []});
+out.set('black', {x: {start: 62 - POSITION_WIDTH, end: 62}, y: {start: 515, end: 550}, piecesOn: []});

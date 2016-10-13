@@ -11,7 +11,14 @@ function game() {
 
 function update(x, y) {  // Invoked from click listener.
     if (selectedPiece) {
-        let moves = dropPiece(x, y);
+        let moves;
+        if (selectedPiece.inPlay){
+            moves = dropPiece(x, y);
+        }
+        else{
+            moves = dropPieceBackToGame(x, y);
+        }        
+        
         selectedPiece = false; // cleanup by moving in dropPiece and renaming,
         availableMovesAmount -= moves;
         winner = countScore();
@@ -27,12 +34,17 @@ function update(x, y) {  // Invoked from click listener.
         selectedPiece = selectingPiece(x, y);
         if (selectedPiece) {
             console.log('on select ' + selectedPiece);
+            console.log(selectedPiece);
             
             if (selectedPiece.inPlay){
                 calculatePossibleMoves(selectedPiece);
             }
             else {
                 CalculatePossibleMovesForPieceOut(selectedPiece);
+                if (availableMoves.length === 0){
+                    endTurn();
+                    render();
+                }
             }
             
             requestAnimationFrame(animationLoop);
@@ -57,9 +69,14 @@ function render() {
     renderBoard();
     renderStaticPieces();
     renderOutPieces();
+// <<<<<<< HEAD
+//     drawDice(dieImage1, dieImage2, DIE_COORDINATES_1, DIE_COORDINATES_2);
+    if (selectedPiece && availableMoves != 0) renderSelectedPiece();
+// =======
     drawDice();
     if (selectedPiece) renderSelectedPiece();
     if (winner) drawEndGame();
+// >>>>>>> origin/alex
 }
 
 $(function() {game();});
