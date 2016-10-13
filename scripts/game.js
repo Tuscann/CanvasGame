@@ -66,7 +66,8 @@ function render() {
     renderBoard();
     renderStaticPieces();
     renderOutPieces();
-    if (selectedPiece && availableMoves.length !== 0) renderSelectedPiece();
+    if (selectedPiece.color === activePlayer) renderSelectedPiece();
+    // if (selectedPiece && availableMoves.length !== 0) renderSelectedPiece();
     // if (selectedPiece && (availableMoves.length !== 0 || (die1 != Number.POSITIVE_INFINITY || die2 != Number.POSITIVE_INFINITY))) renderSelectedPiece();
     drawDice();
     if (winner) drawEndGame();
